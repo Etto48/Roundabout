@@ -4,14 +4,16 @@
     margin: 0 auto;
     position:relative;
     display: grid;
-    grid-template-columns: auto 100px auto;
+    grid-template-columns: auto 120px auto;
     width: fit-content;
     height: fit-content;
     padding-top: 200px;
 }
 
 #title-container {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
     grid-column: 1;
 }
 
@@ -20,6 +22,7 @@
     flex-direction: row;
     align-items: center;
     width:fit-content;
+    color: var(--accent);
 }
 
 #title h1 {
@@ -78,6 +81,7 @@ main #submit {
 
 @media only screen and (max-width: 900px) {
     #container {
+        padding-top: 150px;
         grid-template-columns: unset;
         grid-template-rows: auto 50px auto;
     }
@@ -90,6 +94,10 @@ main #submit {
         align-items: center;
     }
     
+    #subtitle {
+        display: none;
+    }
+
     main {
         grid-column: 1;
         grid-row: 3;
