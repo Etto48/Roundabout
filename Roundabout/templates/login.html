@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% include "head.html" %}
+    <link rel="stylesheet" href="/static/style/login.css" />
+    <title>Login - Roundabout</title>
+</head>
+
+<body>
+    <div id="container">
+        {% include "register-login-logo.html" %}
+        <main>
+            <form>
+                <div class="input-container">
+                    <input id="name" type="text" name="name" placeholder="Username">
+                </div>
+                <div class="input-container">
+                    <input id="password" type="password" name="password" placeholder="Password">
+                </div>
+                <div id="submit" role="button">Log In</div>
+            </form>
+            <a href="/register">Don't have an account?</a>
+        </main>
+    </div>
+    <script src="/static/scripts/register_login.js"></script>
+    <script>
+        enable_register_login(login);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<header>
+    <div id="title">
+        <div id="site-icon"></div>
+        <h1>Roundabout</h1>
+    </div>
+    <p id="location">{{ location }}</p>
+    <div id="search-container">
+        <div id="search">
+            <input type="text" placeholder="Search on Roundabout"/>
+            <div class="searchicon"></div>
+        </div>
+        <div id="searchres" class="hidden"></div>
+        <script src="/static/scripts/show_searchres.js"></script>
+    </div>
+    {% if name is defined and name %}
+    <div id="account">
+        <canvas height="200px" width="200px" class="usericon" id="headericon"></canvas>
+        <p class="username">{{ name }}</p>
+        <script>draw_icon("{{ name }}","headericon")</script>
+    </div>
+    {% else %}
+    <div id="noaccount">
+        <div id="login" role="button"><p>Log in</p></div>
+        <div id="register" role="button"><p>Register</p></div>
+    </div>
+    {% endif %}
+</header>
+<div id="headerspacer"></div>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include "head.html" %}
+        <link rel = "stylesheet" href="/static/style/user.css"/>
+        <title>u/{{ uname }} - Roundabout</title>
+    </head>
+    <body>
+    {% include "header.html" %}
+    {% include "post-area.html" %}
+    <script src="/static/scripts/gen_post.js"></script>
+    <script src="/static/scripts/more_posts.js"></script>
+    <script>
+        start_loading_posts("u","{{ uname }}");
+    </script>
+    </body>
+</html>

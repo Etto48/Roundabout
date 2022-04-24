@@ -1,0 +1,52 @@
+@import url("colors.css");
+@import url("post.css");
+@import url("header.css");
+@import url("scrollbar.css");
+
+body {
+    font-family: sans-serif;
+    background-color: var(--bg1);
+    color: var(--fg2);
+    margin: 0;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+canvas.usericon {
+    background-color: var(--bg3);
+    border-radius: 50%;
+}
+
+div[role=button] {
+   text-align: center;
+   background-color: var(--fg1);
+   color: var(--bg1);
+   cursor: pointer;
+   border-radius: 5px; 
+   transition: 200ms;
+}
+
+div[role=button]:hover {
+    background-color: var(--fg2);
+    color: var(--bg2);
+
+}
+
+div[role=button]:active {
+    background-color: var(--fg3);
+    color: var(--bg3);
+    transition: 0ms;
+}
+
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+input:focus {
+    outline: unset;
+}
+
+input {
+    color: var(--fg2);
+}

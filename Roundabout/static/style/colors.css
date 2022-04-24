@@ -1,0 +1,32 @@
+:root {
+    --bg1: #161616;
+    --bg2: #1f1f1f;
+    --bg3: #3f3f3f;
+    --fg1: #afafaf;
+    --fg2: #dfdfdf;
+    --fg3: #ffffff;
+    --post-bg: var(--bg2);
+    --accent: #8764b8;
+}
+
+body.dark {
+    --bg1: #161616;
+    --bg2: #1f1f1f;
+    --bg3: #3f3f3f;
+    --fg1: #afafaf;
+    --fg2: #dfdfdf;
+    --fg3: #ffffff;
+    --post-bg: var(--bg2);
+    --accent: #8764b8;
+}
+
+body.light {
+    --fg3: #161616;
+    --fg2: #1f1f1f;
+    --fg1: #3f3f3f;
+    --bg3: #afafaf;
+    --bg2: #dfdfdf;
+    --bg1: #ffffff;
+    --post-bg: var(--bg2);
+    --accent: #8764b8;
+}

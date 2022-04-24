@@ -1,0 +1,4 @@
+function gen_post(post)
+{//TODO:                                                                                                                                                                                                                                                                  ERROR
+    return "\<article class=\"post\" id=\"post"+post[0]+"\"\>\<canvas height=\"100px\" width=\"100px\" class=\"usericon\" id=\"icon"+post[0]+"\"\>\</canvas\>\<small class=\"author\"\>"+escape(post[1])+"\</small\>\<small class=\"date\"\>"+post[3]+"\</small\>\<p\>"+ escape(post[2]) +"\</p\>\</article\>\<script\>draw_icon(\""+escape(post[1])+"\",\"icon"+post[0]+"\");\</script\>";
+}
