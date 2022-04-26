@@ -47,6 +47,6 @@ function check_screen_and_update_posts() {
 function start_loading_posts(key, val) {
     set_post_request(key, val)
     more_posts();
-    window.onscroll = check_screen_and_update_posts;
-    window.onresize = check_screen_and_update_posts;
+    window.addEventListener("scroll",check_screen_and_update_posts);
+    window.addEventListener("resize",check_screen_and_update_posts);
 }

@@ -6,6 +6,6 @@ function motd() {
         "Unleash your ideas.",
         "Free to think."
     ];
-    var index = parseInt((Math.random() * 100), motd_list.length);
+    var index = parseInt((Math.random() * motd_list.length), 10);
     return motd_list[index];
 }

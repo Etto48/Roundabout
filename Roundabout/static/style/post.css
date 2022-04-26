@@ -21,6 +21,12 @@ article.post {
     grid-template: 20px auto / 30px 100px auto 200px;
     width: 500px;
     margin-top: 0;
+    transition: 100ms;
+}
+
+article.post:hover {
+    border: 1px solid var(--fg1);
+    border-left: 2px solid var(--accent);
 }
 
 article.post canvas.usericon {

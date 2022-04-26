@@ -23,7 +23,7 @@ div[role=button] {
    color: var(--bg1);
    cursor: pointer;
    border-radius: 5px; 
-   transition: 200ms;
+   transition: 100ms;
 }
 
 div[role=button]:hover {

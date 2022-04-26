@@ -103,7 +103,7 @@ header #searchres {
     top: 75px;
     z-index: 0;
     border-radius: 14px;
-    transition: 150ms;
+    transition: 100ms;
     opacity: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -119,14 +119,50 @@ header #searchres.hidden {
 
 #noaccount,
 #account {
-    margin-top: 30px;
+    margin: 25px 40px 0px 20px;
+    padding: 5px;
     display: flex;
     grid-template-columns: 40px auto;
     flex-direction: row;
+    align-items: center;
     width: calc(100% - 40px);
     grid-column: 7;
-    margin-right: 40px;
-    margin-left: 20px;
+    height: fit-content;
+    border-radius: 30px;
+    transition: 100ms;
+}
+
+#account:hover {
+    background-color: var(--bg2);
+}
+
+#dropdown-arrow {
+    transition: 100ms;
+}
+
+#dropdown-arrow.show {
+    transform: rotate(180deg);
+}
+
+#account-dropdown {
+    height: 0px;
+    width: min(calc(50% - 290px), 400px);
+    opacity: 0%;
+    background-color: var(--bg2);
+    border: 1px solid var(--bg3);
+    position: fixed;
+    right: 10px;
+    top: 110px;
+    border-radius: 10px;
+    transition: 150ms;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#account-dropdown.show {
+    opacity: 100%;
+    height: 600px;
+    max-height: calc(100% - 120px);
 }
 
 #noaccount div {
@@ -150,7 +186,7 @@ header #searchres.hidden {
 }
 
 #account .username {
-    margin: 12px 0px 0 10px;
+    margin: 0 0 0 10px;
     font-size: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;  
@@ -170,7 +206,7 @@ a.searchlink {
     align-items: center;
     border-top: 1px solid var(--bg3);
     border-bottom: 1px solid var(--bg3);
-    transition: 150ms;
+    transition: 100ms;
 }
 
 a.searchlink.selected,
@@ -206,7 +242,7 @@ a.searchlink:first-child:last-child {
 
 a.searchlink p {
     margin: 10px;
-    transition: 150ms;
+    transition: 100ms;
     text-overflow: ellipsis;
     white-space: nowrap;  
     overflow: hidden;
@@ -215,7 +251,7 @@ a.searchlink p {
 a.searchlink canvas.usericon {
     height: 30px;
     width: 30px;
-    transition: 150ms;
+    transition: 100ms;
 }
 
 a.searchlink b {
@@ -226,6 +262,10 @@ a.searchlink b {
     margin: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+#dropdown-arrow {
+    margin: 0 5px 0 auto;
 }
 
 @media only screen and (max-width: 1600px) {
@@ -241,6 +281,11 @@ a.searchlink b {
 
     header #title h1 {
         display: none;
+    }
+
+    #account-dropdown {
+        min-width: fit-content;
+    
     }
 }
 
@@ -266,6 +311,10 @@ a.searchlink b {
     }
 
     header #account .username{
+        display: none;
+    }
+
+    #dropdown-arrow {
         display: none;
     }
 

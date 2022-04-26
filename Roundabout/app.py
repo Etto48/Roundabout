@@ -11,12 +11,10 @@ app = flask.Flask(__name__)
 app.config['SECRET_KEY'] = '4bb5c2a6ffd793fdb261a805e36f1ffc'
 
 def sql_connection():
-    sql_host = '192.168.1.14'
-    sql_database = 'app'
-    sql_user = 'reader'
-    sql_user = 'root'
+    sql_host = 'localhost'
+    sql_database = 'roundabout'
+    sql_user = 'roundabout'
     sql_password = 'W7ycG_V6rfQ8Uf@&'
-    sql_password = 'GVEN48gdneAOMN'
     return mysql.connector.MySQLConnection(host=sql_host,database=sql_database,user=sql_user,password=sql_password)
 
 

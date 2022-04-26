@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% include "head.html" %}
-        <link rel = "stylesheet" href="/static/style/home.css"/>
-        <title>Home - Roundabout</title>
-    </head>
-    <body>
+
+<head>
+    {% include "head.html" %}
+    <link rel="stylesheet" href="/static/style/home.css" />
+    <title>Home - Roundabout</title>
+</head>
+
+<body>
     {% include "header.html" %}
     {% include "post-area.html" %}
     <script src="/static/scripts/gen_post.js"></script>
     <script src="/static/scripts/more_posts.js"></script>
     <script>
-        start_loading_posts("f","{{ name }}");
+        start_loading_posts("f", "{{ name }}");
     </script>
-    </body>
+</body>
+
 </html>

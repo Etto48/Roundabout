@@ -4,7 +4,7 @@ $("#search input").focusin(function (e) {
     }
 });
 
-$(document).mouseup(function (e) {
+window.addEventListener("click",function (e) {
     var container = $("#searchres");
     var container2 = $("#search");
 
