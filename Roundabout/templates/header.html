@@ -7,7 +7,7 @@
     <div id="search-container">
         <div id="search">
             <input type="text" placeholder="Search on Roundabout"/>
-            <div class="searchicon"></div>
+            <i class="searchicon fa-solid fa-magnifying-glass"></i>
         </div>
         <div id="searchres" class="hidden"></div>
         <script src="/static/scripts/show_searchres.js"></script>
@@ -20,7 +20,8 @@
         <script>draw_icon("{{ name }}","headericon")</script>
     </div>
     <div id="account-dropdown">
-        <div role="button" class="dropdown-button" id="logout"><p>Log out</p></div>
+        <div role="button" class="dropdown-button not-clickable" id="light-dark-mode"><p>Light mode</p><input type="checkbox" id="dark-light-mode" onclick="checkbox_dark_light_mode()"/><script>load_theme();</script></div>
+        <div role="button" class="dropdown-button" id="logout" onclick="logout()"><p>Log out</p></div>
     </div>
     <script src="/static/scripts/dropdown.js"></script>
     {% else %}

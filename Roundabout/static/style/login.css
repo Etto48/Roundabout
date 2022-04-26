@@ -46,7 +46,7 @@ main {
     height: fit-content;
     padding: 20px;
     width: fit-content;
-    box-shadow: 0 0 5px black;
+    box-shadow: 0 0 5px var(--shadow);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -77,6 +77,23 @@ main #submit {
     padding: 10px 15px 10px 15px;
     border-radius: 10px;
     font-size: 18px;
+}
+
+main #submit.waiting {
+    background: linear-gradient(90deg,var(--fg1),var(--bg3),var(--fg1));
+    animation: article_end_animation 2s infinite linear;
+    background-size: 300% 100%;
+}
+@keyframes article_end_animation {
+    0% {background-position: 0 0;}
+    100% {background-position: -300% 0;}
+}
+
+main #submit.waiting span {
+    transition: 50ms;
+}
+main #submit.waiting span {
+    opacity: 0;
 }
 
 @media only screen and (max-width: 900px) {

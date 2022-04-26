@@ -4,6 +4,7 @@ import flask
 import mysql.connector
 import json
 import hashlib
+import os
 import bcrypt
 
 app = flask.Flask(__name__)
@@ -16,6 +17,7 @@ def sql_connection():
     sql_user = 'roundabout'
     sql_password = 'W7ycG_V6rfQ8Uf@&'
     return mysql.connector.MySQLConnection(host=sql_host,database=sql_database,user=sql_user,password=sql_password)
+
 
 
 @app.route("/")
@@ -33,6 +35,10 @@ def root():
         return flask.render_template("home.html",name=name,location="Home")
     else:
         return flask.redirect("/login")
+
+@app.route('/favicon.ico')
+def favicon():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static/resources'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route("/login")
 def login_page():
