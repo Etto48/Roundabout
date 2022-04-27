@@ -18,7 +18,7 @@ def sql_connection():
     sql_password = 'W7ycG_V6rfQ8Uf@&'
     return mysql.connector.MySQLConnection(host=sql_host,database=sql_database,user=sql_user,password=sql_password)
 
-
+MAX_COUNT = 32
 
 @app.route("/")
 @app.route("/index")
@@ -57,17 +57,71 @@ def register_page():
     else:
         return flask.render_template("register.html")
 
+@app.route("/api/like",methods=['POST'])
+def like():
+    ret = False
+    name =  flask.session['name'] if 'name' in flask.session else None
+    if name is None:
+        return flask.jsonify(response=False)
+    else:
+        with sql_connection() as conn:
+            post_id = flask.request.form['post_id']
+            # set or reset like
+            sr = flask.request.form['sr']
+            cursor = conn.cursor(prepared=True)
+            if sr=='s': #set
+                cursor.execute(\
+                    """replace into liked values(%s,%s)""",
+                    (post_id,name)
+                )
+                ret = True
+                conn.commit()
+            elif sr=='r': #reset
+                cursor.execute(\
+                    """delete from liked where post_id=%s and user_name=%s""",
+                    (post_id,name)
+                )
+                ret = True
+                conn.commit()
+    return flask.jsonify(response=ret)
+
+
+
 @app.route("/api/posts",methods=['GET'])
 def posts():
     args = flask.request.args.to_dict()
+    name =  flask.session['name'] if 'name' in flask.session else None
     with sql_connection() as conn:
         if 'u' in args and 'from' in args and 'count' in args:
+            count = min(int(args['count']),MAX_COUNT)
             cursor = conn.cursor(prepared=True)
-            cursor.execute("select * from post where user_name = %s order by created desc limit %s offset %s",(args['u'],args['count'],args['from']))
+            cursor.execute(\
+                """select p.*, ifnull(l.likes,0), ifnull(c.comments,0), ifnull(ld.o,false)
+                from post p 
+                left outer join 
+	                (select post_id, count(*) as likes from liked group by post_id) as l on p.id=l.post_id 
+                left outer join 
+                    (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
+                left outer join
+                    (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
+                where p.user_name=%s order by p.created desc limit %s offset %s""",
+                (name,args['u'],count,args['from'])
+            )
             posts = cursor.fetchall()
         elif 'f' in args and 'from' in args and 'count' in args:
+            count = min(int(args['count']),MAX_COUNT)
             cursor = conn.cursor(prepared=True)
-            cursor.execute("select p.* from post p inner join follow f on p.user_name = f.followed where f.follower = %s order by p.created desc limit %s offset %s",(args['f'],args['count'],args['from']))
+            cursor.execute(\
+                """select p.*, ifnull(l.likes,0), ifnull(c.comments,0), ifnull(ld.o,false)
+                from post p inner join follow f on p.user_name = f.followed 
+                left outer join 
+	                (select post_id, count(*) as likes from liked group by post_id) as l on p.id=l.post_id
+                left outer join 
+                    (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
+                left outer join
+                    (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
+                where f.follower = %s order by p.created desc limit %s offset %s"""
+                ,(name,args['f'],count,args['from']))
             posts = cursor.fetchall()
         else:
             posts=[]
@@ -79,8 +133,9 @@ def users():
     args = flask.request.args.to_dict()
     with sql_connection() as conn:
         if 'q' in args and 'from' in args and 'count' in args:
+            count = min(int(args['count']),MAX_COUNT)
             cursor = conn.cursor(prepared=True)
-            cursor.execute("select name from user where name like concat(\"%%\",%s,\"%%\") limit %s offset %s",(args['q'],args['count'],args['from']))
+            cursor.execute("select name from user where name like concat(\"%%\",%s,\"%%\") limit %s offset %s",(args['q'],count,args['from']))
             users = cursor.fetchall()
         else:
             users=[]
@@ -90,22 +145,21 @@ def users():
 @app.route("/api/register",methods=['POST'])
 def register():
     ret = False
-    if flask.request.method == 'POST':
-        name = flask.request.form['name']
-        salt = bcrypt.gensalt()
-        hpassword = hashlib.sha256(flask.request.form['password'].encode('utf-8')+salt).hexdigest()
-        with sql_connection() as conn:
-            cursor = conn.cursor(prepared=True)
-            cursor.execute("select 1 from user where name = %s",(name,))
-            already_present = cursor.fetchone()
-            if already_present:
-                ret = False
-            else:
-                cursor.execute("insert into user (name,salt,hashed_password) values (%s,%s,%s)",(name,salt,hpassword))
-                conn.commit()
-                ret = True
-                flask.session['name']=name
-        return flask.jsonify(response=ret)
+    name = flask.request.form['name']
+    salt = bcrypt.gensalt()
+    hpassword = hashlib.sha256(flask.request.form['password'].encode('utf-8')+salt).hexdigest()
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute("select 1 from user where name = %s",(name,))
+        already_present = cursor.fetchone()
+        if already_present:
+            ret = False
+        else:
+            cursor.execute("insert into user (name,salt,hashed_password) values (%s,%s,%s)",(name,salt,hpassword))
+            conn.commit()
+            ret = True
+            flask.session['name']=name
+    return flask.jsonify(response=ret)
 
 @app.route("/api/logout")
 def logout():
@@ -115,20 +169,19 @@ def logout():
 @app.route("/api/login",methods=['POST'])
 def login():
     ret = False
-    if flask.request.method == 'POST':
-        name = flask.request.form['name']
-        password = flask.request.form['password']
-        with sql_connection() as conn:
-            cursor = conn.cursor(prepared=True)
-            cursor.execute("select salt from user where name = %s",(name,))
-            salt = cursor.fetchone()
-            if salt is not None:
-                hpassword = hashlib.sha256((password+salt[0]).encode('utf-8')).hexdigest()
-                cursor.execute("select 1 from user where name = %s and hashed_password = %s",(name,hpassword))
-                correct = cursor.fetchone()
-                if correct:
-                    ret = True
-                    flask.session['name']=name
+    name = flask.request.form['name']
+    password = flask.request.form['password']
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute("select salt from user where name = %s",(name,))
+        salt = cursor.fetchone()
+        if salt is not None:
+            hpassword = hashlib.sha256((password+salt[0]).encode('utf-8')).hexdigest()
+            cursor.execute("select 1 from user where name = %s and hashed_password = %s",(name,hpassword))
+            correct = cursor.fetchone()
+            if correct:
+                ret = True
+                flask.session['name']=name
     return flask.jsonify(response=ret)
 
 @app.route("/u/<string:uname>")
@@ -141,12 +194,12 @@ def user(uname):
         if present:
             res = flask.render_template("user.html",name=name,uname=uname,location=f"u/{uname}")
         else:
-            res = flask.render_template("404.html")
+            res = flask.render_template("404.html"),404
     return res
 
 @app.errorhandler(404)
 def error404(e):
-    return flask.render_template("404.html")
+    return flask.render_template("404.html"),404
 
 if __name__ == "__main__":
     #from waitress import serve

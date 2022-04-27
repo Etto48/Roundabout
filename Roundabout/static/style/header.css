@@ -145,7 +145,7 @@ header #searchres.hidden {
 }
 
 #account-dropdown {
-    width: min(calc(50% - 290px), 400px);
+    width: fit-content;
     display: none;
     background-color: var(--bg2);
     border: 1px solid var(--bg3);
@@ -161,12 +161,30 @@ header #searchres.hidden {
 
 #account-dropdown .dropdown-button {
     padding: 10px;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template: auto / 40px 160px;
     align-items: center;
     background-color: var(--bg2);
     color: var(--fg2);
     border-radius: 0;
+    text-align: left;
+}
+
+#account-dropdown .dropdown-button.with-checkbox {
+    grid-template: auto / 40px 100px 60px;
+}
+
+#account-dropdown .dropdown-button i {
+    grid-column: 1;
+    margin-left: 10px;
+}
+
+#account-dropdown .dropdown-button p {
+    grid-column: 2;
+}
+
+#account-dropdown .dropdown-button.with-checkbox input[type="checkbox"] {
+    grid-column: 3
 }
 
 #account-dropdown .dropdown-button:hover {
@@ -306,11 +324,6 @@ a.searchlink b {
 
     header #title h1 {
         display: none;
-    }
-
-    #account-dropdown {
-        min-width: fit-content;
-    
     }
 }
 

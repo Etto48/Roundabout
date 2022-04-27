@@ -48,7 +48,7 @@ function check_up_down_arrow(event) {
 }
 
 $("#search input").keydown(function (event) {
-    if (event.key == "Escape") {
+    if (event.key == "new_escape") {
         $("#search input").blur();
         $("#searchres").addClass("hidden");
     }
@@ -78,12 +78,26 @@ $("#search input").keyup(function (event) {
                         $("#searchres").html("");
                         var counter = 0;
                         data.forEach(function (user) {
-                            var username = escape(user[0]);
                             var starting_index = user[0].toLowerCase().indexOf(current_str.toLowerCase());
                             var before = user[0].substring(0, starting_index);
                             var after = user[0].substring(starting_index + current_str.length, user[0].length)
                             var same = user[0].substring(starting_index, starting_index + current_str.length)
-                            $("#searchres").html($("#searchres").html() + "<a href=\"/u/" + username + "\" class=\"searchlink\" id=\"searchlink" + counter + "\"><canvas class=\"usericon\" id=\"searchicon" + counter + "\" width=\"100px\" height=\"100px\"></canvas><p>" + escape(before) + "<b>" + escape(same) + "</b>" + escape(after) + "</p><script>draw_icon(\"" + username + "\",\"searchicon" + counter + "\")</script></a>");
+
+                            var template_data = {
+                                user_name: user[0],
+                                counter: counter,
+                                before: before,
+                                same: same,
+                                after: after
+                            }
+                            var template = 
+                                "<a href=\"/u/{{ user_name }}\" class=\"searchlink\" id=\"searchlink{{ counter }}\">"+
+                                "<canvas class=\"usericon\" id=\"searchicon{{ counter }}\" width=\"100px\" height=\"100px\"></canvas>"+
+                                "<p>{{ before }}<b>{{ same }}</b>{{ after }}</p>"+
+                                "<script>draw_icon(\"{{ user_name }}\",\"searchicon{{ counter }}\")</script></a>";
+                                
+                            var entry = Mustache.render(template,template_data);
+                            $("#searchres").html($("#searchres").html() + entry);
                             counter += 1;
                         });
                         if (data.length == 0) {
