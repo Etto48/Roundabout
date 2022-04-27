@@ -11,7 +11,7 @@ function gen_post(post)
     }
 
     var template = 
-    "<article class=\"post\" id=\"post{{ id }}\">"+
+    "<article class=\"post\" id=\"post{{ id }}\" onclick=\"window.location.assign('/p/{{ id }}')\">"+
         "<canvas height=\"100px\" width=\"100px\" class=\"usericon\" id=\"icon{{ id }}\"></canvas>"+
         "<small class=\"author\">{{ user_name }}</small>"+
         "<small class=\"date\">{{ created }}</small>"+
@@ -22,7 +22,11 @@ function gen_post(post)
             "<div class=\"share\"><i class=\"fa-solid fa-share-nodes\"></i></div>"+
         "</div>"+
     "</article>"+
-    "<script>draw_icon(\"{{ user_name }}\",\"icon{{ id }}\");</script>";
+    "<script>draw_icon(\"{{ user_name }}\",\"icon{{ id }}\");</script>"+
+    "<script>"+
+    "$(\"#post{{ id }} .like\").on(\"click\",function(event){event.stopPropagation();});"+
+    "$(\"#post{{ id }} .share\").on(\"click\",function(event){event.stopPropagation();});"+
+    "</script>";
     return Mustache.render(template,post_data);
 
 }

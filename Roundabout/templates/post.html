@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% include "head.html" %}
+    <link rel="stylesheet" href="/static/style/home.css" />
+    <title>Home - Roundabout</title>
+    <script src="/static/scripts/set_reset_like.js"></script>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <main id="post-container">
+        <div id="posts">
+            <article class="post" id="post{{ post_id }}">
+                <canvas class="usericon"></canvas>
+                <small class="author">{{ user_name }}</small>
+                <small class="date">{{ created }}</small>
+                <p>{{ text }}</p>
+                <div class="post-bar">
+                    <div class="like">
+                        <i class="fa-solid fa-heart {% if liked %}liked{% endif %}"></i>
+                        <small class="like-count">{{ likes }}</small>
+                    </div>
+                    <div class="comment">
+                        <i class="fa-solid fa-message"></i>
+                        <small class="comment-count"></small>
+                    </div>
+                    <div class="share">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+</body>
+
+</html>

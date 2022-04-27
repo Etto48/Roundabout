@@ -11,6 +11,47 @@ app = flask.Flask(__name__)
 
 app.config['SECRET_KEY'] = '4bb5c2a6ffd793fdb261a805e36f1ffc'
 
+""" API DOCS
+/api/like POST (add or remove a like)
+  post_id: target post id
+  sr: 's' to add 'r' to remove the like
+  ->{response=True|False}
+/api/posts GET (download some posts)
+  u: if you want the posts of the user u
+  f: if you want the posts of the users followed by f
+  from: first post to start downloading
+  count: number of post to download (max: 32)
+  ->[[id,user_name,text,created,likes,comments,like],...] array of array
+/api/users GET (find a user)
+  q: query string
+  from: first user to start downloading
+  count: number of users to download (max: 32)  
+  ->[[user_name],...] array of array but the ones inside are just [str]
+/api/register POST (create an account)
+  name: username
+  password: password
+  ->{response: True|False}
+/api/logout GET (exit from account)
+  ->{response: True}
+/api/login POST (log in an account)
+  name: username
+  password: password
+  ->{response: True|False}
+"""
+
+
+def get_post_data(arg):
+    content_type = flask.request.headers.get('Content-Type')
+    if content_type == "application/json":
+        if(arg not in flask.request.json):
+            flask.abort(400,"")
+        ret = flask.request.json[arg]
+    else:
+        if(arg not in flask.request.form):
+            flask.abort(400,"")
+        ret = flask.request.form[arg]
+    return ret
+
 def sql_connection():
     sql_host = 'localhost'
     sql_database = 'roundabout'
@@ -65,9 +106,9 @@ def like():
         return flask.jsonify(response=False)
     else:
         with sql_connection() as conn:
-            post_id = flask.request.form['post_id']
+            post_id = get_post_data('post_id')
             # set or reset like
-            sr = flask.request.form['sr']
+            sr = get_post_data('sr')
             cursor = conn.cursor(prepared=True)
             if sr=='s': #set
                 cursor.execute(\
@@ -120,8 +161,9 @@ def posts():
                     (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
                 left outer join
                     (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
-                where f.follower = %s order by p.created desc limit %s offset %s"""
-                ,(name,args['f'],count,args['from']))
+                where f.follower = %s order by p.created desc limit %s offset %s""",
+                (name,args['f'],count,args['from'])
+            )
             posts = cursor.fetchall()
         else:
             posts=[]
@@ -145,9 +187,9 @@ def users():
 @app.route("/api/register",methods=['POST'])
 def register():
     ret = False
-    name = flask.request.form['name']
+    name = get_post_data('name')
     salt = bcrypt.gensalt()
-    hpassword = hashlib.sha256(flask.request.form['password'].encode('utf-8')+salt).hexdigest()
+    hpassword = hashlib.sha256(get_post_data('password').encode('utf-8')+salt).hexdigest()
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute("select 1 from user where name = %s",(name,))
@@ -169,8 +211,8 @@ def logout():
 @app.route("/api/login",methods=['POST'])
 def login():
     ret = False
-    name = flask.request.form['name']
-    password = flask.request.form['password']
+    name = get_post_data('name')
+    password = get_post_data('password')
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute("select salt from user where name = %s",(name,))
@@ -183,6 +225,26 @@ def login():
                 ret = True
                 flask.session['name']=name
     return flask.jsonify(response=ret)
+
+@app.route("/p/<int:id>")
+def post(id):
+    name = flask.session['name'] if 'name' in flask.session else None
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute(\
+            """select p.*, ifnull(l.likes,0), ifnull(c.comments,0), ifnull(ld.o,false)
+                from post p
+                left outer join 
+	                (select post_id, count(*) as likes from liked group by post_id) as l on p.id=l.post_id
+                left outer join 
+                    (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
+                left outer join
+                    (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
+                where p.id = %s""",
+                (name,id)
+        )
+        post = cursor.fetchone()
+    return flask.render_template("post.html",name=name)
 
 @app.route("/u/<string:uname>")
 def user(uname):
