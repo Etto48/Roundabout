@@ -78,8 +78,10 @@ header #search {
 
 header #search input {
     border: unset;
+    padding: 0;
+    font-size: 14px;
     background-color: var(--bg2);
-    height: calc(100% - 10px);
+    height: calc(100% - 8px);
     width: calc(100% - 50px);
     margin: 4px 10px 4px 10px;
 }
@@ -168,6 +170,8 @@ header #searchres.hidden {
     color: var(--fg2);
     border-radius: 0;
     text-align: left;
+    border-top: 1px solid var(--bg3);
+    border-bottom: 1px solid var(--bg3);
 }
 
 #account-dropdown .dropdown-button.with-checkbox {
@@ -197,12 +201,12 @@ header #searchres.hidden {
 }
 #account-dropdown .dropdown-button:first-child {
     border-radius: 5px 5px 0 0;
-    border-bottom: 1px solid var(--bg3);
+    border-top: unset
 }
 
 #account-dropdown .dropdown-button:last-child {
     border-radius: 0 0 5px 5px;
-    border-top: 1px solid var(--bg3);
+    border-bottom: unset
 }
 
 #account-dropdown .dropdown-button:first-child:last-child {

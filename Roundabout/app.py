@@ -21,7 +21,7 @@ app.config['SECRET_KEY'] = '4bb5c2a6ffd793fdb261a805e36f1ffc'
   f: if you want the posts of the users followed by f
   from: first post to start downloading
   count: number of post to download (max: 32)
-  ->[[id,user_name,text,created,likes,comments,like],...] array of array
+  ->[[id,user_name,text,created,likes,comments,liked],...] array of array
 /api/users GET (find a user)
   q: query string
   from: first user to start downloading
@@ -244,7 +244,9 @@ def post(id):
                 (name,id)
         )
         post = cursor.fetchone()
-    return flask.render_template("post.html",name=name)
+        if post is None:
+            return flask.render_template("404.html"),404
+    return flask.render_template("post.html",name=name,location=f"p/{id}",id=post[0],user_name=post[1],text=post[2],created=post[3].strftime('%a, %d %b %Y %H:%M:%S GMT'),likes=post[4],comments=post[5],liked=post[6])
 
 @app.route("/u/<string:uname>")
 def user(uname):

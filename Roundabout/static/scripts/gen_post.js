@@ -19,7 +19,7 @@ function gen_post(post)
         "<div class=\"post-bar\">"+
             "<div class=\"like {{#liked}}liked{{/liked}}\" onclick=\"sr_like({{ id }})\"><i class=\"fa-solid fa-heart\"></i><small class=\"like-count\">{{ likes }}</small></div>"+
             "<div class=\"comment\"><i class=\"fa-solid fa-message\"></i><small class=\"comment-count\">{{ comments }}</small></div>"+
-            "<div class=\"share\"><i class=\"fa-solid fa-share-nodes\"></i></div>"+
+            "<div class=\"share\" onclick=\"share('Post from {{ user_name }}','{{ text }}','https://ircpi.ddns.net/p/{{ id }}')\"><i class=\"fa-solid fa-share-nodes\"></i></div>"+
         "</div>"+
     "</article>"+
     "<script>draw_icon(\"{{ user_name }}\",\"icon{{ id }}\");</script>"+

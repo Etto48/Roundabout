@@ -7,7 +7,7 @@
 }
 
 #posts {
-    width: 542px;
+    width: 642px;
 }
 
 article.post {
@@ -19,7 +19,7 @@ article.post {
     margin: 10px;
     border-radius: 5px;
     grid-template: 20px auto 24px / 30px 100px auto 200px;
-    width: 500px;
+    width: calc(100% - 42px);
     margin-top: 0;
     transition: 100ms;
 }
@@ -85,8 +85,13 @@ article.post .post-bar div {
     display: flex;
     flex-direction: row;
     align-items: center;
+    min-width: 80px;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
+}
+
+article.post .post-bar .share {
+    min-width: unset;
 }
 
 article.post .post-bar div.like.liked i{
@@ -107,6 +112,8 @@ article.post .post-bar div:hover {
 
 article.post#end {
     background-color: var(--post-bg);
+    max-width: 600px;
+    width: calc(100% - 42px);
 }
 
 article.post#end canvas.usericon,
@@ -141,11 +148,7 @@ article.post#end p {
     border-radius: 5px;
 }
 
-@media only screen and (max-width: 562px) {
-    article.post {
-        width: calc(100% - 42px);
-    }
-
+@media only screen and (max-width: 662px) {
     #posts {
         width: 100%;
     }
