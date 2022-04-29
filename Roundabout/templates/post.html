@@ -37,9 +37,14 @@
                         <div class="create-bar">
                         </div>
                     </div>
-                    <div class="comments">
+                    <div id="comments">
 
                     </div>
+                    <script src="/static/scripts/gen_comment.js"></script>
+                    <script src="/static/scripts/more_comments.js"></script>
+                    <script>
+                        start_loading_comments('p','{{id}}');
+                    </script>
                 </div>
             </article>
         </div>

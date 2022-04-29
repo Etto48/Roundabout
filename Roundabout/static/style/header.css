@@ -147,6 +147,7 @@ header #searchres.hidden {
 }
 
 #account-dropdown {
+    width: -moz-fit-content;
     width: fit-content;
     display: none;
     background-color: var(--bg2);
@@ -172,6 +173,7 @@ header #searchres.hidden {
     text-align: left;
     border-top: 1px solid var(--bg3);
     border-bottom: 1px solid var(--bg3);
+    transition: 100ms;
 }
 
 #account-dropdown .dropdown-button.with-checkbox {

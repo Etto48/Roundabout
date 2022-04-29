@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include "head.html" %}
+        <link rel="stylesheet" href="/static/style/global.css" />
+        <title>Api Docs - Roundabout</title>
+    </head>
+    <body>
+        <h1>API DOCS</h1>
+        <ul style="font-family: monospace">
+            <li>
+                /api/like POST (add or remove a like)<br/>
+                post_id: target post id<br/>
+                sr: 's' to add 'r' to remove the like<br/>
+                ->{response=True|False}
+            </li>
+            <li>
+                /api/posts GET (download some posts)<br/>
+                u: if you want the posts of the user u<br/>
+                f: if you want the posts of the users followed by f<br/>
+                from: first post to start downloading<br/>
+                count: number of post to download (max: 32)<br/>
+                ->[[id,user_name,text,created,likes,comments,liked],...] array of array
+            </li>
+            <li>
+                /api/comments GET (download some posts)<br/>
+                p: post id from where you what the comments<br/>
+                from: first comment to start downloading<br/>
+                count: number of comments to download (max: 32)<br/>
+                ->[[id,post_id,text,created,username],...] array of array
+            </li>
+            <li>
+                /api/users GET (find a user)<br/>
+                q: query string<br/>
+                from: first user to start downloading<br/>
+                count: number of users to download (max: 32)<br/>
+                ->[[user_name],...] array of array but the ones inside are just [str]
+            </li>
+            <li>
+                /api/register POST (create an account)<br/>
+                name: username<br/>
+                password: password<br/>
+                ->{response: True|False}
+            </li>
+            <li>
+                /api/logout GET (exit from account)<br/>
+                ->{response: True}
+            </li>
+            <li>
+                /api/login POST (log in an account)<br/>
+                name: username<br/>
+                password: password<br/>
+                ->{response: True|False}<
+            </li>
+        </ul>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import flask
+from flask import jsonify
 import mysql.connector
 import json
 import hashlib
@@ -11,33 +12,7 @@ app = flask.Flask(__name__)
 
 app.config['SECRET_KEY'] = '4bb5c2a6ffd793fdb261a805e36f1ffc'
 
-""" API DOCS
-/api/like POST (add or remove a like)
-  post_id: target post id
-  sr: 's' to add 'r' to remove the like
-  ->{response=True|False}
-/api/posts GET (download some posts)
-  u: if you want the posts of the user u
-  f: if you want the posts of the users followed by f
-  from: first post to start downloading
-  count: number of post to download (max: 32)
-  ->[[id,user_name,text,created,likes,comments,liked],...] array of array
-/api/users GET (find a user)
-  q: query string
-  from: first user to start downloading
-  count: number of users to download (max: 32)  
-  ->[[user_name],...] array of array but the ones inside are just [str]
-/api/register POST (create an account)
-  name: username
-  password: password
-  ->{response: True|False}
-/api/logout GET (exit from account)
-  ->{response: True}
-/api/login POST (log in an account)
-  name: username
-  password: password
-  ->{response: True|False}
-"""
+
 
 
 def get_post_data(arg):
@@ -52,6 +27,9 @@ def get_post_data(arg):
         ret = flask.request.form[arg]
     return ret
 
+def get_user_name():
+    return flask.session['name'] if 'name' in flask.session else None
+
 def sql_connection():
     sql_host = 'localhost'
     sql_database = 'roundabout'
@@ -61,10 +39,18 @@ def sql_connection():
 
 MAX_COUNT = 32
 
+@app.route('/api-docs',methods=['GET'])
+def api_doc():
+    if 'key' in flask.request.args:
+        if flask.request.args['key']=='pkf4ZbJ4owfY@o4sKEJ%dUunfJjv0OQN':
+            return flask.render_template("api-docs.html")
+    return flask.render_template("404.html"),404
+    
+
 @app.route("/")
 @app.route("/index")
 def root():
-    name =  flask.session['name'] if 'name' in flask.session else None
+    name =  get_user_name()
     if name is not None:
         with sql_connection() as conn:
             cursor = conn.cursor(prepared=True)
@@ -83,7 +69,7 @@ def favicon():
 
 @app.route("/login")
 def login_page():
-    name =  flask.session['name'] if 'name' in flask.session else None
+    name =  get_user_name()
     if name is not None:
         return flask.redirect("/")
     else:
@@ -92,7 +78,7 @@ def login_page():
 
 @app.route("/register")
 def register_page():
-    name =  flask.session['name'] if 'name' in flask.session else None
+    name =  get_user_name()
     if name is not None:
         return flask.redirect("/")
     else:
@@ -101,7 +87,7 @@ def register_page():
 @app.route("/api/like",methods=['POST'])
 def like():
     ret = False
-    name =  flask.session['name'] if 'name' in flask.session else None
+    name =  get_user_name()
     if name is None:
         return flask.jsonify(response=False)
     else:
@@ -127,11 +113,30 @@ def like():
     return flask.jsonify(response=ret)
 
 
+@app.route("/api/comments",methods=['GET'])
+def comments():
+    args = flask.request.args.to_dict()
+    name =  get_user_name()
+    with sql_connection() as conn:
+        if 'p' in args and 'from' in args and 'count' in args:
+            count = min(int(args['count']),MAX_COUNT)
+            cursor = conn.cursor(prepared=True)
+            cursor.execute(\
+                """select c.* from comment c where c.post_id=%s order by c.created desc limit %s offset %s""",
+                (args['p'],args['count'],args['from'])
+            )
+            comments = cursor.fetchall()
+        else:
+            comments = []
+            flask.abort(400,"")
+        res = flask.jsonify(comments)
+    return res
+
 
 @app.route("/api/posts",methods=['GET'])
 def posts():
     args = flask.request.args.to_dict()
-    name =  flask.session['name'] if 'name' in flask.session else None
+    name =  get_user_name()
     with sql_connection() as conn:
         if 'u' in args and 'from' in args and 'count' in args:
             count = min(int(args['count']),MAX_COUNT)
@@ -167,6 +172,7 @@ def posts():
             posts = cursor.fetchall()
         else:
             posts=[]
+            flask.abort(400,"")
         res = flask.jsonify(posts)            
     return res
 
@@ -228,7 +234,7 @@ def login():
 
 @app.route("/p/<int:id>")
 def post(id):
-    name = flask.session['name'] if 'name' in flask.session else None
+    name = get_user_name()
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute(\
@@ -246,11 +252,11 @@ def post(id):
         post = cursor.fetchone()
         if post is None:
             return flask.render_template("404.html"),404
-    return flask.render_template("post.html",name=name,location=f"p/{id}",id=post[0],user_name=post[1],text=post[2],created=post[3].strftime('%a, %d %b %Y %H:%M:%S GMT'),likes=post[4],comments=post[5],liked=post[6])
+    return flask.render_template("post.html",name=name,location=f"Post from {post[1]}",id=post[0],user_name=post[1],text=post[2],created=post[3].strftime('%a, %d %b %Y %H:%M:%S GMT'),likes=post[4],comments=post[5],liked=post[6])
 
 @app.route("/u/<string:uname>")
 def user(uname):
-    name = flask.session['name'] if 'name' in flask.session else None
+    name = get_user_name()
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute("select 1 from user where name = %s", (uname,))
