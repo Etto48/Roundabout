@@ -13,7 +13,7 @@
     <main id="post-container">
         <div id="posts">
             <article class="post single" id="post{{ id }}">
-                <canvas id="icon{{ id }}" class="usericon" width="100px" height="100px"></canvas>
+                <canvas id="p-icon{{ id }}" class="usericon" width="100px" height="100px"></canvas>
                 <small class="author">{{ user_name }}</small>
                 <small class="date">{{ created }}</small>
                 <p>{{ text }}</p>
@@ -30,12 +30,12 @@
                         <i class="fa-solid fa-share-nodes"></i>
                     </div>
                 </div>
-                <script>draw_icon("{{ user_name }}","icon{{ id }}");</script>
+                <script>draw_icon("{{ user_name }}","p-icon{{ id }}");</script>
                 <div class="comment-container">
                     <div class="create-comment">
                         <textarea id="create-comment-input" placeholder="What do you think about this?"></textarea>
                         <div class="create-bar">
-                            <div role="button" id="create"><p>Comment</p></div>
+                            <div role="button" id="create" onclick="new_comment('{{ id }}')"><p>Comment</p></div>
                         </div>
                     </div>
                     <div id="comments">
@@ -48,6 +48,7 @@
                         <div class="comment-border"></div>
                     </article>
                     <script src="/static/scripts/gen_comment.js"></script>
+                    <script src="/static/scripts/new_comment.js"></script>
                     <script src="/static/scripts/more_comments.js"></script>
                     <script>
                         start_loading_comments('p','{{id}}');

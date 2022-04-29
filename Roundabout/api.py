@@ -2,6 +2,7 @@ import flask
 from .tools import *
 import bcrypt
 import hashlib
+import re
 
 app_api = flask.Blueprint('app_api', __name__, url_prefix='/api')
 
@@ -33,11 +34,29 @@ def like():
                 conn.commit()
     return flask.jsonify(response=ret)
 
+@app_api.route("/new-comment",methods=['POST'])
+def new_comment():
+    name = get_user_name()
+    check_auth(name)
+    p = get_post_data('p')
+    text = get_post_data('text')
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute(\
+            """insert into `comment` (post_id,text,user_name) values (%s,%s,%s)""",
+            (p,text,name)
+        )
+        cursor.execute("select last_insert_id()")
+        comment_id = cursor.fetchone()
+        cursor.execute("select * from comment where id = %s",(comment_id[0],))
+        comment = cursor.fetchone()
+        conn.commit()
+    return flask.jsonify(comment=comment)
 
 @app_api.route("/comments",methods=['GET'])
 def comments():
     args = flask.request.args.to_dict()
-    name =  get_user_name()
+    #name =  get_user_name()
     with sql_connection() as conn:
         if 'p' in args and 'from' in args and 'count' in args:
             count = min(int(args['count']),MAX_COUNT)
@@ -49,7 +68,7 @@ def comments():
             comments = cursor.fetchall()
         else:
             comments = []
-            flask.abort(400,"")
+            flask.abort(400,"You must provide \"p\", \"from\" and \"count\"")
         res = flask.jsonify(comments)
     return res
 
@@ -93,7 +112,7 @@ def posts():
             posts = cursor.fetchall()
         else:
             posts=[]
-            flask.abort(400,"")
+            flask.abort(400,"You must provide \"u\"|\"f\", \"from\" and \"count\"")
         res = flask.jsonify(posts)            
     return res
 
@@ -113,22 +132,25 @@ def users():
 
 @app_api.route("/register",methods=['POST'])
 def register():
-    ret = False
     name = get_post_data('name')
+    if re.match("^[a-zA-Z0-9_-]{4,16}$",name) is None:
+        return flask.jsonify(response=False,why='nregex')
+    password = get_post_data('password')
+    if re.match("^(?=.*?[a-z])(?=.*?[0-9]).{8,255}$",password) is None:
+        return flask.jsonify(response=False,why='pregex')
     salt = bcrypt.gensalt()
-    hpassword = hashlib.sha256(get_post_data('password').encode('utf-8')+salt).hexdigest()
+    hpassword = hashlib.sha256(password.encode('utf-8')+salt).hexdigest()
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute("select 1 from user where name = %s",(name,))
         already_present = cursor.fetchone()
         if already_present:
-            ret = False
+            return flask.jsonify(response=False,why='npresent')
         else:
             cursor.execute("insert into user (name,salt,hashed_password) values (%s,%s,%s)",(name,salt,hpassword))
             conn.commit()
-            ret = True
             flask.session['name']=name
-    return flask.jsonify(response=ret)
+            return flask.jsonify(response=True)
 
 @app_api.route("/logout")
 def logout():

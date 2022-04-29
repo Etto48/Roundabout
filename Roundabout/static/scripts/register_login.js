@@ -33,6 +33,18 @@ function register() {
                         //register error
                         end_waiting_animation();
                         waiting = false;
+                        if(data.why=='nregex')
+                        {
+                            console.log('Username does not respect the regex');
+                        }
+                        else if(data.why=='pregex')
+                        {
+                            console.log('Password does not respect the regex');
+                        }
+                        else if(data.why=='npresent')
+                        {
+                            console.log('Username already in use');
+                        }
                     }
                 }
                 else {

@@ -27,7 +27,13 @@
                 p: post id from where you what the comments<br/>
                 from: first comment to start downloading<br/>
                 count: number of comments to download (max: 32)<br/>
-                ->[[id,post_id,text,created,username],...] array of array
+                ->[[id,post_id,text,created,user_name],...] array of array
+            </li>
+            <li>
+                /api/new-comment POST (create a new post)<br/>
+                p: post id where you want to create a comment<br/>
+                text: content of the comment
+                ->{comment=[id,post_id,text,created,user_name]}
             </li>
             <li>
                 /api/users GET (find a user)<br/>
@@ -40,7 +46,7 @@
                 /api/register POST (create an account)<br/>
                 name: username<br/>
                 password: password<br/>
-                ->{response: True|False}
+                ->{response: True}|{response: False, why: 'nregex'|'pregex'|'npresent'}
             </li>
             <li>
                 /api/logout GET (exit from account)<br/>

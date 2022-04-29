@@ -25,15 +25,8 @@ def api_doc():
 @app.route("/")
 @app.route("/index")
 def root():
-    name =  get_user_name()
+    name = get_user_name()
     if name is not None:
-        with sql_connection() as conn:
-            cursor = conn.cursor(prepared=True)
-            cursor.execute("select 1 from user where name = %s",(name,))
-            present = cursor.fetchone() 
-        if not present:
-            flask.session.clear()
-            return flask.redirect("/login")
         return flask.render_template("home.html",name=name,location="Home")
     else:
         return flask.redirect("/login")
