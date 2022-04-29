@@ -24,7 +24,14 @@ article.post {
     transition: 100ms;
 }
 
-article.post:hover {
+@media (hover: hover) {
+    article.post:hover {
+        border: 1px solid var(--fg1);
+        border-left: 2px solid var(--accent);
+    }
+}
+
+article.post:active {
     border: 1px solid var(--fg1);
     border-left: 2px solid var(--accent);
 }
@@ -104,8 +111,14 @@ article.post .post-bar div small {
     width: 20px;
     color: var(--fg1);
 }
+@media (hover: hover) {
+    article.post .post-bar div:hover {
+        background-color: var(--bg2);
+        color: var(--fg1);
+    }
+}
 
-article.post .post-bar div:hover {
+article.post .post-bar div:active {
     background-color: var(--bg2);
     color: var(--fg1);
 }
@@ -148,7 +161,7 @@ article.post#end p {
     border-radius: 5px;
 }
 
-@media only screen and (max-width: 662px) {
+@media only screen and (max-width: 652px) {
     #posts {
         width: 100%;
     }

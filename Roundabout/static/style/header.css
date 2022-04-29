@@ -33,7 +33,13 @@ header #title #site-icon {
     transition: 200ms;
 }
 
-header #title:hover #site-icon {
+@media (hover: hover) {
+    header #title:hover #site-icon {
+        transform: rotate(-240deg) scale(1.05);
+    }
+}
+
+header #title:active #site-icon {
     transform: rotate(-240deg) scale(1.05);
 }
 
@@ -134,7 +140,13 @@ header #searchres.hidden {
     cursor: pointer;
 }
 
-#account:hover {
+@media (hover: hover) {
+    #account:hover {
+        background-color: var(--bg2);
+    }
+}
+
+#account:active {
     background-color: var(--bg2);
 }
 
@@ -193,14 +205,16 @@ header #searchres.hidden {
     grid-column: 3
 }
 
-#account-dropdown .dropdown-button:hover {
+@media (hover: hover) {
+    #account-dropdown .dropdown-button:not(.not-clickable):hover {
+        background-color: var(--bg3);
+    }
+}
+
+#account-dropdown .dropdown-button:not(.not-clickable):active {
     background-color: var(--bg3);
 }
 
-#account-dropdown .dropdown-button.not-clickable:hover {
-    background-color: var(--bg2);
-    cursor: unset;
-}
 #account-dropdown .dropdown-button:first-child {
     border-radius: 5px 5px 0 0;
     border-top: unset
@@ -270,8 +284,17 @@ a.searchlink {
     transition: 100ms;
 }
 
-a.searchlink.selected,
-a.searchlink:hover {
+a.searchlink.selected {
+    background-color: var(--bg3);
+}
+
+@media (hover: hover) {
+    a.searchlink:hover {
+        background-color: var(--bg3);
+    }
+}
+
+a.searchlink:active {
     background-color: var(--bg3);
 }
 

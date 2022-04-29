@@ -27,10 +27,11 @@ div[role=button] {
    transition: 100ms;
 }
 
-div[role=button]:hover {
-    background-color: var(--fg2);
-    color: var(--bg2);
-
+@media (hover: hover) {
+    div[role=button]:hover {
+        background-color: var(--fg2);
+        color: var(--bg2);
+    }
 }
 
 div[role=button]:active {
