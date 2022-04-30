@@ -16,7 +16,11 @@
                 <canvas id="p-icon{{ id }}" class="usericon" width="100px" height="100px"></canvas>
                 <small class="author">{{ user_name }}</small>
                 <small class="date">{{ created }}</small>
-                <p>{{ text }}</p>
+                <div class="post-text">{{ text }}</div>
+                <script>
+                    var md = new remarkable.Remarkable();
+                    $("#post{{id}} .post-text").html(md.render($("#post{{id}} .post-text").html()));
+                </script>
                 <div class="post-bar">
                     <div class="like {% if liked %}liked{% endif %}" onclick="sr_like('{{ id }}')">
                         <i class="fa-solid fa-heart"></i>
@@ -44,7 +48,7 @@
                         <canvas height="100px\" width="100px" class="usericon"></canvas>
                         <small class="author"></small>
                         <small class="date"></small>
-                        <p></p>
+                        <div class="comment-text"></div>
                         <div class="comment-border"></div>
                     </article>
                     <script src="/static/scripts/gen_comment.js"></script>

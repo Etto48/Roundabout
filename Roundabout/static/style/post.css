@@ -63,7 +63,7 @@ article.post small.date {
     overflow: hidden;
 }
 
-article.post p {
+article.post .post-text {
     grid-column-start: 1;
     grid-column-end: 5;
     grid-row: 2;
@@ -132,7 +132,7 @@ article.post#end {
 article.post#end canvas.usericon,
 article.post#end small.author,
 article.post#end small.date,
-article.post#end p {
+article.post#end .post-text {
     background: linear-gradient(90deg,var(--post-bg),var(--bg1),var(--post-bg));
     animation: article_end_animation 2s infinite linear;
     background-size: 300% 100%;
@@ -155,10 +155,23 @@ article.post#end small.date {
     text-align: left;
 }
 
-article.post#end p {
+article.post#end .post-text {
     width: 100%;
     height: 100px;
     border-radius: 5px;
+}
+
+@keyframes post-created {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+article.post.created {
+    animation: post-created 500ms ease-in;
 }
 
 @media only screen and (max-width: 652px) {

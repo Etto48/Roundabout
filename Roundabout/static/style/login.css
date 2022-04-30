@@ -90,7 +90,7 @@ main #submit.waiting {
 }
 
 main #submit.waiting span {
-    transition: 50ms;
+    transition: 100ms;
 }
 main #submit.waiting span {
     opacity: 0;

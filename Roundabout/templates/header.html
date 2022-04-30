@@ -6,7 +6,7 @@
     <p id="location">{{ location }}</p>
     <div id="search-container">
         <div id="search">
-            <input type="text" placeholder="Search on Roundabout"/>
+            <input type="text" placeholder="Search on Roundabout" />
             <i class="searchicon fa-solid fa-magnifying-glass"></i>
         </div>
         <div id="searchres" class="hidden"></div>
@@ -15,23 +15,23 @@
     {% if name is defined and name %}
     <div id="account">
         <canvas height="200px" width="200px" class="usericon" id="headericon"></canvas>
-        <p class="username">{{ name }}</p>
+        <p class="username" id="username-tag">{{ name }}</p>
         <i id="dropdown-arrow" class="fa-solid fa-angle-down"></i>
-        <script>draw_icon("{{ name }}","headericon")</script>
+        <script>draw_icon("{{ name }}", "headericon")</script>
     </div>
     <div id="account-dropdown">
         <div role="button" class="dropdown-button" id="account-page" onclick="window.location.assign('/u/{{name}}')">
             <i class="fa-solid fa-user"></i>
             <p>Profile</p>
         </div>
-        <div role="button" class="dropdown-button" id="new-post">
+        <div role="button" class="dropdown-button" id="new-post" onclick="show_new_post_dialog()">
             <i class="fa-solid fa-plus"></i>
             <p>New post</p>
         </div>
         <div class="dropdown-button not-clickable with-checkbox" id="light-dark-mode">
             <i class="fa-solid fa-sun"></i>
             <p>Light mode</p>
-            <input type="checkbox" id="dark-light-mode" onclick="checkbox_dark_light_mode()"/>
+            <input type="checkbox" id="dark-light-mode" onclick="checkbox_dark_light_mode()" />
             <script>load_theme();</script>
         </div>
         <div role="button" class="dropdown-button" id="logout" onclick="logout()">
@@ -39,11 +39,30 @@
             <p>Log out</p>
         </div>
     </div>
+    <div id="new-post-container">
+        <div id="new-post-overlay">
+            <div id="new-post-title">
+                <h1>Create a new post</h1>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <textarea id="new-post-text" placeholder="What's happening?"></textarea>
+            <div id="new-post-bar">
+                <div role="button" id="create-post">
+                    <p>Post</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/static/scripts/dropdown.js"></script>
+    <script src="/static/scripts/new_post.js"></script>
     {% else %}
     <div id="noaccount">
-        <div id="login" role="button"><p>Log in</p></div>
-        <div id="register" role="button"><p>Register</p></div>
+        <div id="login" role="button">
+            <p>Log in</p>
+        </div>
+        <div id="register" role="button">
+            <p>Register</p>
+        </div>
     </div>
     {% endif %}
 </header>

@@ -8,14 +8,22 @@ function gen_post(post)
         likes: post[4],
         comments: post[5],
         liked: post[6]
-    }
+    };
+
+    var text = post[2];
+
+    var md = new remarkable.Remarkable();
+    var text_render = md.render(text);
 
     var template = 
     "<article class=\"post\" id=\"post{{ id }}\" onclick=\"window.location.assign('/p/{{ id }}')\">"+
         "<canvas height=\"100px\" width=\"100px\" class=\"usericon\" id=\"icon{{ id }}\"></canvas>"+
         "<small class=\"author\">{{ user_name }}</small>"+
         "<small class=\"date\">{{ created }}</small>"+
-        "<p>{{ text }}</p>"+
+        "<div class=\"post-text\">"+
+        //"{{ text }}"+
+        text_render+
+        "</div>"+
         "<div class=\"post-bar\">"+
             "<div class=\"like {{#liked}}liked{{/liked}}\" onclick=\"sr_like({{ id }})\"><i class=\"fa-solid fa-heart\"></i><small class=\"like-count\">{{ likes }}</small></div>"+
             "<div class=\"comment\"><i class=\"fa-solid fa-message\"></i><small class=\"comment-count\">{{ comments }}</small></div>"+

@@ -48,7 +48,7 @@ function check_up_down_arrow(event) {
 }
 
 $("#search input").keydown(function (event) {
-    if (event.key == "new_escape") {
+    if (event.key == "Escape") {
         $("#search input").blur();
         $("#searchres").addClass("hidden");
     }

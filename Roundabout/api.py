@@ -10,28 +10,26 @@ app_api = flask.Blueprint('app_api', __name__, url_prefix='/api')
 def like():
     ret = False
     name =  get_user_name()
-    if name is None:
-        return flask.jsonify(response=False)
-    else:
-        with sql_connection() as conn:
-            post_id = get_post_data('post_id')
-            # set or reset like
-            sr = get_post_data('sr')
-            cursor = conn.cursor(prepared=True)
-            if sr=='s': #set
-                cursor.execute(\
-                    """replace into liked values(%s,%s)""",
-                    (post_id,name)
-                )
-                ret = True
-                conn.commit()
-            elif sr=='r': #reset
-                cursor.execute(\
-                    """delete from liked where post_id=%s and user_name=%s""",
-                    (post_id,name)
-                )
-                ret = True
-                conn.commit()
+    check_auth(name)
+    with sql_connection() as conn:
+        post_id = get_post_data('post_id')
+        # set or reset like
+        sr = get_post_data('sr')
+        cursor = conn.cursor(prepared=True)
+        if sr=='s': #set
+            cursor.execute(\
+                """replace into liked values(%s,%s)""",
+                (post_id,name)
+            )
+            ret = True
+            conn.commit()
+        elif sr=='r': #reset
+            cursor.execute(\
+                """delete from liked where post_id=%s and user_name=%s""",
+                (post_id,name)
+            )
+            ret = True
+            conn.commit()
     return flask.jsonify(response=ret)
 
 @app_api.route("/new-comment",methods=['POST'])
@@ -72,6 +70,24 @@ def comments():
         res = flask.jsonify(comments)
     return res
 
+
+@app_api.route("/new-post",methods=['POST'])
+def new_post():
+    name = get_user_name()
+    check_auth(name)
+    text=get_post_data('text')
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute(\
+            """insert into post (user_name,text) values (%s,%s)""",
+            (name,text)
+        )
+        cursor.execute("select last_insert_id()")
+        post_id = cursor.fetchone()
+        cursor.execute("select p.*,0,0,false from post p where id = %s",(post_id[0],))
+        post = cursor.fetchone()
+        conn.commit()
+    return flask.jsonify(post=post)
 
 @app_api.route("/posts",methods=['GET'])
 def posts():

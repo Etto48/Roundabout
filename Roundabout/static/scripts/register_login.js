@@ -33,6 +33,7 @@ function register() {
                         //register error
                         end_waiting_animation();
                         waiting = false;
+                        //TODO: handle registration fail
                         if(data.why=='nregex')
                         {
                             console.log('Username does not respect the regex');
@@ -78,6 +79,7 @@ function login() {
                 }
                 else {
                     //login error
+                    //TODO: handle registration fail
                     end_waiting_animation();
                     waiting=false;
                 }
