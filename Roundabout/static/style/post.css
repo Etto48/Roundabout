@@ -161,6 +161,11 @@ article.post#end .post-text {
     border-radius: 5px;
 }
 
+.post-text img {
+    width: 100%;
+    object-fit: cover;
+}
+
 @keyframes post-created {
     0% {
         opacity: 0%;

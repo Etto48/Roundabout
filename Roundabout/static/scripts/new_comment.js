@@ -14,6 +14,7 @@ function new_comment(post_id) {
                     $("#comments").html(gen_comment(data.comment) + $("#comments").html());
                     $("#comments .comment:first-child").addClass("created");
                     $("#create-comment-input").val("");
+                    $(".single.post .comment-count").text(parseInt($(".single.post .comment-count").text(),10)+1);
                 }
                 creating_comment = false;
             });
