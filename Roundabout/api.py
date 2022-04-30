@@ -115,15 +115,17 @@ def posts():
             cursor = conn.cursor(prepared=True)
             cursor.execute(\
                 """select p.*, ifnull(l.likes,0), ifnull(c.comments,0), ifnull(ld.o,false)
-                from post p inner join follow f on p.user_name = f.followed 
+                from post p 
+                left outer join
+                    follow f on p.user_name = f.followed 
                 left outer join 
 	                (select post_id, count(*) as likes from liked group by post_id) as l on p.id=l.post_id
                 left outer join 
                     (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
                 left outer join
                     (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
-                where f.follower = %s order by p.created desc limit %s offset %s""",
-                (name,args['f'],count,args['from'])
+                where (f.follower = %s and f.followed is not null) or p.user_name = %s order by p.created desc limit %s offset %s""",
+                (name,args['f'],args['f'],count,args['from'])
             )
             posts = cursor.fetchall()
         else:

@@ -15,6 +15,7 @@ function new_comment(post_id) {
                     $("#comments .comment:first-child").addClass("created");
                     $("#create-comment-input").val("");
                     $(".single.post .comment-count").text(parseInt($(".single.post .comment-count").text(),10)+1);
+                    from += 1;
                 }
                 creating_comment = false;
             });

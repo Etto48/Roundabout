@@ -35,10 +35,11 @@ function new_post() {
                 {
                     //TODO: handle post
                     hide_new_post_dialog();
-                    if(is_on_profile())
+                    if(is_on_profile() || is_on_home())
                     {
                         $("#posts").html(gen_post(data.post)+$("#posts").html());
                         $("#posts .post:first-child").addClass("created");
+                        from += 1;
                     }
                 }
                 posting = false;
