@@ -38,6 +38,8 @@ def new_comment():
     check_auth(name)
     p = get_post_data('p')
     text = get_post_data('text')
+    if len(text)==0:
+        flask.abort(400,"Text must be non empty")
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute(\
@@ -76,6 +78,8 @@ def new_post():
     name = get_user_name()
     check_auth(name)
     text=get_post_data('text')
+    if len(text)==0:
+        flask.abort(400,"Text must be non empty")
     with sql_connection() as conn:
         cursor = conn.cursor(prepared=True)
         cursor.execute(\
@@ -154,7 +158,8 @@ def register():
     if re.match("^[a-zA-Z0-9_-]{4,16}$",name) is None:
         return flask.jsonify(response=False,why='nregex')
     password = get_post_data('password')
-    if re.match("^(?=.*?[a-z])(?=.*?[0-9]).{8,255}$",password) is None:
+    if re.match("^(?=.*?[a-z])(?=.*?[0-9]).{8,255}$",password) is None and\
+        re.match("^(?=.*?[A-Z])(?=.*?[0-9]).{8,255}$",password) is None:
         return flask.jsonify(response=False,why='pregex')
     salt = bcrypt.gensalt()
     hpassword = hashlib.sha256(password.encode('utf-8')+salt).hexdigest()

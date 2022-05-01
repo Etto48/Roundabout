@@ -138,6 +138,15 @@ article.comment.created {
     object-fit: cover;
 }
 
+#create {
+    order: 1;
+}
+
+#comment-text-counter {
+    order: 2;
+    margin-right: 20px;
+}
+
 @media only screen and (max-width: 400px) {
     .single.post {
         grid-template: 20px auto 24px auto / 30px 100px auto 0px;

@@ -45,12 +45,20 @@
                 <h1>Create a new post</h1>
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <textarea id="new-post-text" placeholder="What's happening?"></textarea>
+            <textarea id="new-post-text" maxlength="255" placeholder="What's happening?"></textarea>
             <div id="new-post-bar">
+                <small id="text-counter">0/255</small>
                 <div role="button" id="create-post">
                     <p>Post</p>
                 </div>
             </div>
+            <script src="/static/scripts/text_counter.js"></script>
+            <script>
+                $("#new-post-text").on("input",function(event)
+                {
+                    count_text_and_update_counter("#text-counter","#new-post-text",255);
+                });
+            </script>
         </div>
     </div>
     <script src="/static/scripts/dropdown.js"></script>

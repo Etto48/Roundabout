@@ -39,6 +39,11 @@
     background-repeat: no-repeat;
 }
 
+#error-text {
+    width: 300px;
+    color: red;
+}
+
 
 main {
     grid-column: 3;
@@ -60,6 +65,13 @@ main .input-container {
     padding: 10px 15px 10px 15px;
     border-radius: 10px;
     border: 1px solid var(--bg3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main .input-container.wrong {
+    border: 1px solid red;
 }
 
 main input {
@@ -94,6 +106,16 @@ main #submit.waiting span {
 }
 main #submit.waiting span {
     opacity: 0;
+}
+
+#pwd-strenght-bg {
+    width: 100%;
+    margin: 5px 0 0 0;
+    height: 4px;
+}
+
+#pwd-container {
+    transition: all 100ms;
 }
 
 @media only screen and (max-width: 900px) {

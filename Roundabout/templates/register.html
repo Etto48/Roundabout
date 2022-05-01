@@ -5,6 +5,7 @@
     {% include "head.html" %}
     <link rel="stylesheet" href="/static/style/login.css" />
     <title>Register - Roundabout</title>
+    <script src="/static/scripts/password_strenght.js"></script>
 </head>
 
 <body>
@@ -12,13 +13,19 @@
         {% include "register-login-logo.html" %}
         <main>
             <form>
-                <div class="input-container">
+                <p id="error-text">
+                </p>
+                <div class="input-container" id="name-container">
                     <input id="name" type="text" name="name" placeholder="Username">
                 </div>
-                <div class="input-container"> 
+                <div class="input-container" id="pwd-container"> 
                     <input id="password" type="password" name="password" placeholder="Password">
+                    <div class="loading-bar-bg" id="pwd-strenght-bg">
+                        <div class="loading-bar" id="pwd-strenght">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-container">
+                <div class="input-container" id="cpwd-container">
                     <input id="cpassword" type="password" name="cpassword" placeholder="Confirm password">
                 </div>
                 <div id="submit" role="button"><span>Register</span></div>

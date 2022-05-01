@@ -37,11 +37,19 @@
                 <script>draw_icon("{{ user_name }}","p-icon{{ id }}");</script>
                 <div class="comment-container">
                     <div class="create-comment">
-                        <textarea id="create-comment-input" placeholder="What do you think about this?"></textarea>
+                        <textarea id="create-comment-input" maxlength="255" placeholder="What do you think about this?"></textarea>
                         <div class="create-bar">
+                            <small id="comment-text-counter">0/255</small>
                             <div role="button" id="create" onclick="new_comment('{{ id }}')"><p>Comment</p></div>
                         </div>
                     </div>
+                    <script src="/static/scripts/text_counter.js"></script>
+                    <script>
+                        $("#create-comment-input").on("input",function(event)
+                        {
+                            count_text_and_update_counter("#comment-text-counter","#create-comment-input",255);
+                        });
+                    </script>
                     <div id="comments">
                     </div>
                     <article class="comment" id="end">
