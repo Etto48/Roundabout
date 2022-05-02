@@ -84,7 +84,9 @@ def user(uname):
         cursor.execute("select 1 from user where name = %s", (uname,))
         present = cursor.fetchone()
         if present:
-            res = flask.render_template("user.html",name=name,uname=uname,location=f"u/{uname}")
+            
+            followed = check_follow(name,uname) if name is not None else None
+            res = flask.render_template("user.html",name=name,uname=uname,location=f"u/{uname}",followed=followed)
         else:
             res = flask.render_template("404.html"),404
     return res

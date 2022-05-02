@@ -1,3 +1,3 @@
-function share(title,text,url) {
-    navigator.share({title: title, text: text, url: url});
+function share(title,url) {
+    navigator.share({title: title, text: "Check this out", url: url});
 }

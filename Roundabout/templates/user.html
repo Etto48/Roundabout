@@ -5,9 +5,20 @@
         <link rel = "stylesheet" href="/static/style/user.css"/>
         <title>u/{{ uname }} - Roundabout</title>
         <script src="/static/scripts/set_reset_like.js"></script>
+        <script src="/static/scripts/follow.js"></script>
     </head>
     <body>
     {% include "header.html" %}
+    <div id="account-banner">
+        <div id="banner-top-container">
+            <canvas id="banner-canvas" height="400px" width="400px"></canvas>
+            <h1 id="banner-name">{{ uname }}</h1>
+        </div>
+        <div id="follow-button-container">
+            <div id="follow-button" role="button" onclick="follow_unfollow('{{ uname }}')">{% if followed %}Unfollow{% else %}Follow{% endif %}</div>
+        </div>
+        <script>draw_icon("{{ uname }}","banner-canvas")</script>
+    </div>
     {% include "post-area.html" %}
     <script src="/static/scripts/gen_post.js"></script>
     <script src="/static/scripts/more_posts.js"></script>

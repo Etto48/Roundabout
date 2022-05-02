@@ -25,7 +25,7 @@ function more_comments() {
                         });
                         if (data.length < count) {
                             if (from == 0 && data.length == 0)
-                                $("#comments").html($("#comments").html() + "<p>No one commented yet, be the first!</p>");
+                                $("#comments").html($("#comments").html() + "<p id=\"no-comments\">No one commented yet, be the first!</p>");
                             $("#end").hide();
                             end = true;
                         }

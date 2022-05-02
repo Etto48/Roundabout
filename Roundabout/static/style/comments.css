@@ -147,6 +147,10 @@ article.comment.created {
     margin-right: 20px;
 }
 
+#no-comments {
+    margin: 10px;
+}
+
 @media only screen and (max-width: 400px) {
     .single.post {
         grid-template: 20px auto 24px auto / 30px 100px auto 0px;

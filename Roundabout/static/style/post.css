@@ -166,6 +166,10 @@ article.post#end .post-text {
     object-fit: cover;
 }
 
+#no-posts {
+    margin: 10px;
+}
+
 @keyframes post-created {
     0% {
         opacity: 0%;

@@ -117,6 +117,15 @@ header #searchres {
     display: block;
     padding: 10px;
     box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#searchres::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+#searchres::-webkit-scrollbar-thumb {
+    border-radius: 5px;
 }
 
 header #searchres.hidden {
@@ -176,6 +185,15 @@ header #searchres.hidden {
     padding: 10px;
     box-sizing: border-box;
     box-shadow: 0 0 5px var(--shadow);
+    overflow-y: auto;
+}
+
+#account-dropdown::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+#account-dropdown::-webkit-scrollbar-thumb{
+    border-radius: 5px;
 }
 
 #account-dropdown .dropdown-button {

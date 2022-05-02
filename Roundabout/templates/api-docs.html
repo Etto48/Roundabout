@@ -9,59 +9,90 @@
         <h1>API DOCS</h1>
         <ul style="font-family: monospace">
             <li>
-                /api/like POST (add or remove a like)<br/>
-                post_id: target post id<br/>
-                sr: 's' to add 'r' to remove the like<br/>
-                ->{response=True|False}
+                <h2>/api/like POST (add or remove a like)</h2>
+                <ul>
+                    <li>post_id: target post id</li>
+                    <li>sr: 's' to add 'r' to remove the like</li>
+                </ul>
+                <p>->{response=True|False}</p>
             </li>
             <li>
-                /api/posts GET (download some posts)<br/>
-                u: if you want the posts of the user u<br/>
-                f: if you want the posts of the users followed by f + his posts<br/>
-                from: first post to start downloading<br/>
-                count: number of post to download (max: 32)<br/>
-                ->[[id,user_name,text,created,likes,comments,liked],...] array of array
+                <h2>/api/posts GET (download some posts)</h2>
+                <ul>
+                    <li>u: if you want the posts of the user u</li>
+                    <li>f: if you want the posts of the users followed by f + his posts</li>
+                    <li>from: first post to start downloading</li>
+                    <li>count: number of post to download (max: 32)</li>
+                </ul>
+                <p>->[[id,user_name,text,created,likes,comments,liked],...] array of array</p>
             </li>
             <li>
-                /api/new-post POST (create a new post)<br/>
-                text: content of the post<br/>
-                ->{post=[id,user_name,text,created,likes,comments,liked]}
+                <h2>/api/new-post POST (create a new post)</h2>
+                <ul>
+                    <li>text: content of the post</li>
+                </ul>
+                <p>->{post=[id,user_name,text,created,likes,comments,liked]}</p>
             </li>
             <li>
-                /api/comments GET (download some posts)<br/>
-                p: post id from where you what the comments<br/>
-                from: first comment to start downloading<br/>
-                count: number of comments to download (max: 32)<br/>
-                ->[[id,post_id,text,created,user_name],...] array of array
+                <h2>/api/comments GET (download some posts)</h2>
+                <ul>
+                    <li>p: post id from where you what the comments</li>
+                    <li>from: first comment to start downloading</li>
+                    <li>count: number of comments to download (max: 32)</li>
+                </ul>
+                <p>->[[id,post_id,text,created,user_name],...] array of array</p>
             </li>
             <li>
-                /api/new-comment POST (create a new comment)<br/>
-                p: post id where you want to create a comment<br/>
-                text: content of the comment<br/>
-                ->{comment=[id,post_id,text,created,user_name]}
+                <h2>/api/new-comment POST (create a new comment)</h2>
+                <ul>
+                    <li>p: post id where you want to create a comment</li>
+                    <li>text: content of the comment</li>
+                </ul>
+                <p>->{comment=[id,post_id,text,created,user_name]}</p>
             </li>
             <li>
-                /api/users GET (find a user)<br/>
-                q: query string<br/>
-                from: first user to start downloading<br/>
-                count: number of users to download (max: 32)<br/>
-                ->[[user_name],...] array of array but the ones inside are just [str]
+                <h2>/api/users GET (find a user)</h2>
+                <ul>
+                    <li>q: query string</li>
+                    <li>from: first user to start downloading</li>
+                    <li>count: number of users to download (max: 32)</li>
+                </ul>
+                <p>->[[user_name],...] array of array but the ones inside are just [str]</p>
             </li>
             <li>
-                /api/register POST (create an account)<br/>
-                name: username<br/>
-                password: password<br/>
-                ->{response: True}|{response: False, why: 'nregex'|'pregex'|'npresent'}
+                <h2>/api/register POST (create an account)</h2>
+                <ul>
+                    <li>name: username</li>
+                    <li>password: password</li>
+                </ul>
+                <p>->{response: True}|{response: False, why: 'nregex'|'pregex'|'npresent'}</p>
             </li>
             <li>
-                /api/logout GET (exit from account)<br/>
-                ->{response: True}
+                <h2>/api/logout GET (exit from account)</h2>
+                <p>->{response: True}</p>
             </li>
             <li>
-                /api/login POST (log in an account)<br/>
-                name: username<br/>
-                password: password<br/>
-                ->{response: True|False}
+                <h2>/api/login POST (log in an account)</h2>
+                <ul>
+                    <li>name: username</li>
+                    <li>password: password</li>
+                </ul>
+                <p>->{response: True|False}</p>
+            </li>
+            <li>
+                <h2>/api/following GET (check if you are following a user)</h2>
+                <ul>
+                    <li>u: user to check</li>
+                </ul>
+                <p>->{response: True|False}</p>
+            </li>
+            <li>
+                <h2>/api/follow POST (follow or stop following a user)</h2>
+                <ul>
+                    <li>target: user to follow/stop following</li>
+                    <li>sr: 's' to start following 'r' to stop following</li>
+                </ul>
+                <p>->{response: True|False}</p>
             </li>
         </ul>
     </body>

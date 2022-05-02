@@ -41,3 +41,13 @@ def validate_username(name):
             flask.session.clear()
             return None
     return name
+
+def check_follow(follower,followed):
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute("select 1 from follow where follower=%s and followed=%s", (follower,followed))
+        ret = cursor.fetchone()
+        if ret:
+            return True
+        else:
+            return False

@@ -25,7 +25,7 @@ function more_posts() {
                         });
                         if (data.length < count) {
                             if (from == 0 && data.length == 0)
-                                $("#posts").html($("#posts").html() + "<p>Nothing to see here</p>");
+                                $("#posts").html($("#posts").html() + "<p id=\"no-posts\">Nothing to see here</p>");
                             $("#end").hide();
                             end = true;
                         }

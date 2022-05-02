@@ -18,14 +18,14 @@ def like():
         cursor = conn.cursor(prepared=True)
         if sr=='s': #set
             cursor.execute(\
-                """replace into liked values(%s,%s)""",
+                """replace into liked (post_id,user_name) values(%s,%s)""",
                 (post_id,name)
             )
             ret = True
             conn.commit()
         elif sr=='r': #reset
             cursor.execute(\
-                """delete from liked where post_id=%s and user_name=%s""",
+                """delete from liked where post_id = %s and user_name = %s""",
                 (post_id,name)
             )
             ret = True
@@ -67,7 +67,6 @@ def comments():
             )
             comments = cursor.fetchall()
         else:
-            comments = []
             flask.abort(400,"You must provide \"p\", \"from\" and \"count\"")
         res = flask.jsonify(comments)
     return res
@@ -118,22 +117,21 @@ def posts():
             count = min(int(args['count']),MAX_COUNT)
             cursor = conn.cursor(prepared=True)
             cursor.execute(\
-                """select p.*, ifnull(l.likes,0), ifnull(c.comments,0), ifnull(ld.o,false)
+                """select distinct p.*, ifnull(l.likes,0), ifnull(c.comments,0), ifnull(ld.o,false)
                 from post p 
-                left outer join
-                    follow f on p.user_name = f.followed 
+                inner join
+                    (select * from follow union select %s,%s) f on p.user_name = f.followed 
                 left outer join 
 	                (select post_id, count(*) as likes from liked group by post_id) as l on p.id=l.post_id
                 left outer join 
                     (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
                 left outer join
                     (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
-                where (f.follower = %s and f.followed is not null) or p.user_name = %s order by p.created desc limit %s offset %s""",
-                (name,args['f'],args['f'],count,args['from'])
+                where (f.follower = %s and f.followed is not null) order by p.created desc limit %s offset %s""",
+                (args['f'],args['f'],name,args['f'],count,args['from'])
             )
             posts = cursor.fetchall()
         else:
-            posts=[]
             flask.abort(400,"You must provide \"u\"|\"f\", \"from\" and \"count\"")
         res = flask.jsonify(posts)            
     return res
@@ -196,4 +194,47 @@ def login():
             if correct:
                 ret = True
                 flask.session['name']=name
+    return flask.jsonify(response=ret)
+
+#@app_api.route("/followers",methods=['GET'])
+def followers():
+    pass
+
+#@app_api.route("/followed",methods=['GET'])
+def followed():
+    pass
+
+@app_api.route("/following",methods=['GET'])
+def following():
+    name = get_user_name()
+    check_auth(name)
+    if 'u' in flask.request.args:
+        user_name = flask.request.args['u']
+        return flask.jsonify(response=check_follow(name,user_name))
+    else:
+        flask.abort(400,"You must provide \"u\"")
+
+
+@app_api.route("/follow",methods=['POST'])
+def follow():
+    ret = False
+    name = get_user_name()
+    check_auth(name)
+    target = get_post_data('target')
+    sr = get_post_data('sr')
+    if name != target:
+        with sql_connection() as conn:
+            cursor = conn.cursor(prepared=True)
+            if sr=='s':
+                cursor.execute(\
+                    """replace into follow (follower,followed) values (%s,%s)""",
+                    (name,target))
+                ret = True
+                conn.commit()
+            elif sr=='r':
+                cursor.execute(\
+                    """delete from follow where follower = %s and followed = %s""",
+                    (name,target))
+                ret = True
+                conn.commit()
     return flask.jsonify(response=ret)
