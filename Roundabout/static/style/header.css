@@ -106,6 +106,7 @@ header #searchres {
     width: 500px;
     max-height: 700px;
     min-height: 50px;
+    max-height: calc(100vh - 80px);
     position: absolute;
     background: var(--bg2);
     border: 1px solid var(--bg3);
@@ -313,11 +314,13 @@ a.searchlink.selected {
 @media (hover: hover) {
     a.searchlink:hover {
         background-color: var(--bg3);
+        color: var(--fg2);
     }
 }
 
 a.searchlink:active {
     background-color: var(--bg3);
+    color: var(--fg2);
 }
 
 a.searchlink:first-child {

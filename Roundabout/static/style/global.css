@@ -32,12 +32,20 @@ div[role=button] {
         background-color: var(--fg2);
         color: var(--bg2);
     }
+    a:hover {
+        color: var(--accent);
+    }
 }
+
 
 div[role=button]:active {
     background-color: var(--fg3);
     color: var(--bg3);
     transition: 0ms;
+}
+
+a:active {
+    color: var(--accent);
 }
 
 a {

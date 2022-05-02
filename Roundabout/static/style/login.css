@@ -91,6 +91,30 @@ main #submit {
     font-size: 18px;
 }
 
+@keyframes wrong_submit_shake {
+    0% {
+        left: 0;
+        background-color: red;
+    }
+    25% {
+        left: 4px;
+    }
+    50% {
+        left: 0;
+    }
+    75% {
+        left: -4px;
+    }
+    100% {
+        left: 0;
+    }
+
+}
+#submit.wrong {
+    position: relative;
+    animation: wrong_submit_shake 300ms linear;
+}
+
 main #submit.waiting {
     background: linear-gradient(90deg,var(--fg1),var(--bg3),var(--fg1));
     animation: article_end_animation 2s infinite linear;

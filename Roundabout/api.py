@@ -196,13 +196,39 @@ def login():
                 flask.session['name']=name
     return flask.jsonify(response=ret)
 
-#@app_api.route("/followers",methods=['GET'])
+@app_api.route("/followers",methods=['GET'])
 def followers():
-    pass
+    name = get_user_name()
+    if 'u' in flask.request.args:
+        u = flask.request.args['u']
+        with sql_connection() as conn:
+            cursor = conn.cursor(prepared=True)
+            cursor.execute(\
+                """select f1.follower,
+                    ifnull((select 1 from follow f2 where f1.follower = f2.followed and f2.follower=%s),0)
+                    from follow f1 where f1.followed=%s""",
+                (name,u))
+            f = cursor.fetchall()
+    else:
+        flask.abort(400,"You must provide \"u\"")
+    return flask.jsonify(f)
 
-#@app_api.route("/followed",methods=['GET'])
+@app_api.route("/followed",methods=['GET'])
 def followed():
-    pass
+    name = get_user_name()
+    if 'u' in flask.request.args:
+        u = flask.request.args['u']
+        with sql_connection() as conn:
+            cursor = conn.cursor(prepared=True)
+            cursor.execute(\
+                """select f1.followed,
+                    ifnull((select 1 from follow f2 where f1.followed = f2.followed and f2.follower=%s),0)
+                    from follow f1 where f1.follower=%s""",
+                (name,u))
+            f = cursor.fetchall()
+    else:
+        flask.abort(400,"You must provide \"u\"")
+    return flask.jsonify(f)
 
 @app_api.route("/following",methods=['GET'])
 def following():

@@ -9,6 +9,7 @@ function end_waiting_animation() {
 }
 
 function register() {
+    $("#submit").removeClass("wrong");
     var name = $("#name").val();
     var password = $("#password").val();
     var cpassword = $("#cpassword").val();
@@ -56,6 +57,7 @@ function register() {
                             ndiv.addClass("wrong");
                             $("#error-text").text("Username is already in use");
                         }
+                        $("#submit").addClass("wrong");
                     }
                 }
                 else {
@@ -74,6 +76,7 @@ function register() {
 }
 
 function login() {
+    $("#submit").removeClass("wrong");
     var name = $("#name").val();
     var password = $("#password").val();
     if(!waiting)
@@ -98,6 +101,7 @@ function login() {
                     $("#error-text").text("Wrong username or password");
                     end_waiting_animation();
                     waiting=false;
+                    $("#submit").addClass("wrong");
                 }
             }
             else 
