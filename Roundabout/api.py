@@ -196,6 +196,20 @@ def login():
                 flask.session['name']=name
     return flask.jsonify(response=ret)
 
+@app_api.route("/followers-count",methods=['GET'])
+def followers_count():
+    if 'u' in flask.request.args:
+        return flask.jsonify(count=get_follower_count(flask.request.args['u']))
+    else:
+        flask.abort(400,"You must provide \"u\"")
+
+@app_api.route("/followed-count",methods=['GET'])
+def followed_count():
+    if 'u' in flask.request.args:
+        return flask.jsonify(count=get_followed_count(flask.request.args['u']))
+    else:
+        flask.abort(400,"You must provide \"u\"")
+
 @app_api.route("/followers",methods=['GET'])
 def followers():
     name = get_user_name()

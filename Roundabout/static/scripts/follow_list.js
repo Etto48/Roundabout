@@ -17,7 +17,7 @@ function load_followers(name) {
                     );
                     if(data.length==0)
                     {
-                        $("#follow-list").html("<p class=\"no-follow\" id=\"no-followers\">No one follows you</p>");
+                        $("#follow-list").html("<p class=\"no-follow\" id=\"no-followers\">No one to show</p>");
                     }
                     $("#follow-list-wrapper h1").text("Followers");
                     $("#follow-list-container").addClass("show");
@@ -46,7 +46,7 @@ function load_followed(name) {
                     )
                     if(data.length==0)
                     {
-                        $("#follow-list").html("<p class=\"no-follow\" id=\"no-followed\">You don't follow anyone</p>");
+                        $("#follow-list").html("<p class=\"no-follow\" id=\"no-followed\">No one to show</p>");
                     }
                     $("#follow-list-wrapper h1").text("Following");
                     $("#follow-list-container").addClass("show");

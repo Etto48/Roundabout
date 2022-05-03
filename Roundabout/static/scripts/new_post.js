@@ -41,6 +41,10 @@ function new_post() {
                         $("#posts .post:first-child").addClass("created");
                         from += 1;
                     }
+                    if(is_on_profile()) {
+                        var post_count = $("#post-count");
+                        post_count.text(parseInt(post_count.text())+1);
+                    }
                 }
                 posting = false;
             }

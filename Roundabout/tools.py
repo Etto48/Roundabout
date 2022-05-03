@@ -65,3 +65,10 @@ def get_followed_count(user_name):
         cursor.execute("select count(*) from follow where follower=%s",(user_name,))
         count = cursor.fetchone()[0]
     return count
+
+def get_post_count(user_name):
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute("select count(*) from post where user_name=%s",(user_name,))
+        count = cursor.fetchone()[0]
+    return count

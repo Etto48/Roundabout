@@ -29,11 +29,25 @@ function follow_unfollow(user_name,button_id) {
             function(data,status) {
                 if (status == "success") {
                     if(data.response) {
+                        var followers_count = $("#followers-count");
+                        var followed_count = $("#followed-count");
+                        var follow_delta = 0;
                         if(sr=='s') {
                             button.text("Unfollow");
+                            follow_delta = 1;
                         }
                         else {
                             button.text("Follow");
+                            follow_delta = -1;
+                        }
+
+                        if(is_on_user(user_name))
+                        {
+                            followers_count.text(parseInt(followers_count.text())+follow_delta);
+                        }
+                        else if(is_on_profile())
+                        {
+                            followed_count.text(parseInt(followed_count.text())+follow_delta);
                         }
                     }
                 }

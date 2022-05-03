@@ -86,7 +86,10 @@ def user(uname):
         if present:
             
             followed = check_follow(name,uname) if name is not None else None
-            res = flask.render_template("user.html",name=name,uname=uname,location=f"u/{uname}",followed=followed)
+            followers_count = get_follower_count(uname)
+            followed_count = get_followed_count(uname)
+            post_count = get_post_count(uname)
+            res = flask.render_template("user.html",name=name,uname=uname,location=f"u/{uname}",followed=followed,followers_count=followers_count,followed_count=followed_count,post_count=post_count)
         else:
             res = flask.render_template("404.html"),404
     return res

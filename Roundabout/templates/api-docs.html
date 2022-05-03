@@ -80,11 +80,25 @@
                 <p>->{response: True|False}</p>
             </li>
             <li>
+                <h2>/api/followers-count GET (get how many users follow a user)</h2>
+                <ul>
+                    <li>u: user to check</li>
+                </ul>
+                <p>->{count: count}</p>
+            </li>
+            <li>
                 <h2>/api/followers GET (get a list of all the followers of a certain user and if you follow them)</h2>
                 <ul>
                     <li>u: user to check</li>
                 </ul>
                 <p>->[[user_name,you_follow_them],...] array of array</p>
+            </li>
+            <li>
+                <h2>/api/followed-count GET (get how many users are followed by a user)</h2>
+                <ul>
+                    <li>u: user to check</li>
+                </ul>
+                <p>->{count: count}</p>
             </li>
             <li>
                 <h2>/api/followed GET (get a list of all the users that follow a certain user and if you follow them)</h2>

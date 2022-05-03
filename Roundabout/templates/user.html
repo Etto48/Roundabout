@@ -15,13 +15,19 @@
         <div id="account-banner">
             <div id="banner-top-container">
                 <canvas id="banner-canvas" height="400px" width="400px"></canvas>
-                <h1 id="banner-name">{{ uname }}</h1>
+                <div id="banner-info-container">
+                    <h1 id="banner-name">{{ uname }}</h1>
+                    <div id="banner-info-follow-container">
+                        <small id="post-count-container"><span id="post-count">{{ post_count }}</span> posts</small>
+                        <small id="followers-count-container" onclick="load_followers('{{ uname }}')"><span id="followers-count">{{ followers_count }}</span> followers</small>
+                        <small id="followed-count-container" onclick="load_followed('{{ uname }}')"><span id="followed-count">{{ followed_count }}</span> following</small>
+                    </div>
+                </div>
             </div>
             <script>gen_bg("{{ uname }}","banner-top-container")</script>
             <div id="follow-button-container">
                 {% if name!=uname %}
-                <div id="follow-button" role="button" onclick="follow_unfollow('{{ uname }}','follow-button')">{% if followed
-                    %}Unfollow{% else %}Follow{% endif %}</div>
+                <div id="follow-button" role="button" onclick="follow_unfollow('{{ uname }}','follow-button')">{% if followed %}Unfollow{% else %}Follow{% endif %}</div>
                 {% endif %}
             </div>
             <script>draw_icon("{{ uname }}", "banner-canvas")</script>

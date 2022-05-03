@@ -15,7 +15,7 @@ function gen_comment(comment)
     var template = 
     "<article class=\"comment\" id=\"comment{{ id }}\">"+
         "<canvas height=\"100px\" width=\"100px\" class=\"usericon\" id=\"icon{{ id }}\"></canvas>"+
-        "<small class=\"author\">{{ user_name }}</small>"+
+        "<a href=\"/u/{{ user_name }}\"><small class=\"author\">{{ user_name }}</small></a>"+
         "<small class=\"date\">{{ created }}</small>"+
         "<div class=\"comment-text\">"+
         text_render+

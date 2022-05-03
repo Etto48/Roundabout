@@ -97,10 +97,6 @@ article.post .post-bar div {
     border-radius: 5px;
 }
 
-article.post .post-bar .share {
-    min-width: unset;
-}
-
 article.post .post-bar div.like.liked i{
     color: var(--accent);
 }
@@ -173,6 +169,15 @@ article.post#end .post-text {
     border-collapse: collapse;
 }
 
+.post-text pre {
+    width: fit-content;
+    height: fit-content;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid var(--bg3);
+    border-radius: 5px;
+}
+
 #no-posts {
     margin: 10px;
 }
@@ -204,4 +209,7 @@ article.post.created {
     article.post small.date {
         display: none;
     }   
+    article.post .post-bar div {
+        min-width: unset;
+    }
 }

@@ -18,7 +18,7 @@ function gen_post(post)
     var template = 
     "<article class=\"post\" id=\"post{{ id }}\" onclick=\"window.location.assign('/p/{{ id }}')\">"+
         "<canvas height=\"100px\" width=\"100px\" class=\"usericon\" id=\"icon{{ id }}\"></canvas>"+
-        "<small class=\"author\">{{ user_name }}</small>"+
+        "<a href=\"/u/{{ user_name }}\"><small class=\"author\">{{ user_name }}</small></a>"+
         "<small class=\"date\">{{ created }}</small>"+
         "<div class=\"post-text\">"+
         text_render+
@@ -26,7 +26,7 @@ function gen_post(post)
         "<div class=\"post-bar\">"+
             "<div class=\"like {{#liked}}liked{{/liked}}\" onclick=\"sr_like({{ id }})\"><i class=\"fa-solid fa-heart\"></i><small class=\"like-count\">{{ likes }}</small></div>"+
             "<div class=\"comment\"><i class=\"fa-solid fa-message\"></i><small class=\"comment-count\">{{ comments }}</small></div>"+
-            "<div class=\"share\" onclick=\"share('Post from {{ user_name }}','https://ircpi.ddns.net/p/{{ id }}')\"><i class=\"fa-solid fa-share-nodes\"></i></div>"+
+            "<div class=\"share\" onclick=\"share('Post from {{ user_name }}','https://ircpi.ddns.net/p/{{ id }}')\"><i class=\"fa-solid fa-share-nodes\"></i><small class=\"share-text\">Share</small></div>"+
         "</div>"+
     "</article>"+
     "<script>draw_icon(\"{{ user_name }}\",\"icon{{ id }}\");</script>"+
