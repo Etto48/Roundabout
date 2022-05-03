@@ -19,6 +19,8 @@
         <i id="dropdown-arrow" class="fa-solid fa-angle-down"></i>
         <script>draw_icon("{{ name }}", "headericon")</script>
     </div>
+    <script src="/static/scripts/gen_follow.js"></script>
+    <script src="/static/scripts/follow_list.js"></script>
     <div id="account-dropdown">
         <div role="button" class="dropdown-button" id="account-page" onclick="window.location.assign('/u/{{name}}')">
             <i class="fa-solid fa-user"></i>
@@ -28,11 +30,11 @@
             <i class="fa-solid fa-plus"></i>
             <p>New post</p>
         </div>
-        <div role="button" class="dropdown-button" id="followers">
+        <div role="button" class="dropdown-button" id="followers" onclick="load_followers('{{ name }}')">
             <i class="fa-solid fa-people-group"></i>
             <p>Followers</p>
         </div>
-        <div role="button" class="dropdown-button" id="following">
+        <div role="button" class="dropdown-button" id="following" onclick="load_followed('{{ name }}')">
             <i class="fa-solid fa-address-book"></i>
             <p>Following</p>
         </div>
@@ -69,6 +71,16 @@
             </script>
         </div>
     </div>
+    <div id="follow-list-container">
+        <div id="follow-list-wrapper">
+            <div id="follow-title">
+                <h1></h1>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div id="follow-list"></div>
+        </div>
+    </div>
+    <script>enable_follow()</script>
     <script src="/static/scripts/dropdown.js"></script>
     <script src="/static/scripts/new_post.js"></script>
     {% else %}

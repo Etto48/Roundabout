@@ -1,11 +1,11 @@
 var follow_working = false;
 
-function follow_unfollow(user_name) {
+function follow_unfollow(user_name,button_id) {
     if(!follow_working)
     {
         follow_working = true;
         var sr;
-        var button = $("#follow-button");
+        var button = $("#"+button_id);
         var btext = button.text();
         if(btext=="Unfollow")
         {

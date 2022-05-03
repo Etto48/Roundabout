@@ -51,3 +51,17 @@ def check_follow(follower,followed):
             return True
         else:
             return False
+
+def get_follower_count(user_name):
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute("select count(*) from follow where followed=%s",(user_name,))
+        count = cursor.fetchone()[0]
+    return count
+
+def get_followed_count(user_name):
+    with sql_connection() as conn:
+        cursor = conn.cursor(prepared=True)
+        cursor.execute("select count(*) from follow where follower=%s",(user_name,))
+        count = cursor.fetchone()[0]
+    return count

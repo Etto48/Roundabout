@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="/static/style/user.css" />
     <title>u/{{ uname }} - Roundabout</title>
     <script src="/static/scripts/set_reset_like.js"></script>
-    <script src="/static/scripts/follow.js"></script>
     <script src="/static/scripts/gen_bg.js"></script>
 </head>
 
@@ -21,7 +20,7 @@
             <script>gen_bg("{{ uname }}","banner-top-container")</script>
             <div id="follow-button-container">
                 {% if name!=uname %}
-                <div id="follow-button" role="button" onclick="follow_unfollow('{{ uname }}')">{% if followed
+                <div id="follow-button" role="button" onclick="follow_unfollow('{{ uname }}','follow-button')">{% if followed
                     %}Unfollow{% else %}Follow{% endif %}</div>
                 {% endif %}
             </div>

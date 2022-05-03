@@ -37,7 +37,7 @@ def favicon():
 
 @app.route("/login")
 def login_page():
-    name =  get_user_name()
+    name = get_user_name()
     if name is not None:
         return flask.redirect("/")
     else:
@@ -46,7 +46,7 @@ def login_page():
 
 @app.route("/register")
 def register_page():
-    name =  get_user_name()
+    name = get_user_name()
     if name is not None:
         return flask.redirect("/")
     else:

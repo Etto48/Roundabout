@@ -252,6 +252,7 @@ def follow():
         with sql_connection() as conn:
             cursor = conn.cursor(prepared=True)
             if sr=='s':
+                print(f"NAME: {name}, TARGET: {target}")
                 cursor.execute(\
                     """replace into follow (follower,followed) values (%s,%s)""",
                     (name,target))
