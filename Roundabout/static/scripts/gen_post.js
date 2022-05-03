@@ -12,7 +12,7 @@ function gen_post(post)
 
     var text = post[2];
 
-    var md = new remarkable.Remarkable();
+    var md = new remarkable.Remarkable(remarkable_settings);
     var text_render = md.render(text);
 
     var template = 

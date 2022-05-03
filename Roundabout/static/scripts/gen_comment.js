@@ -9,7 +9,7 @@ function gen_comment(comment)
     };
 
     var text = comment[2];
-    var md = new remarkable.Remarkable();
+    var md = new remarkable.Remarkable(remarkable_settings);
     text_render = md.render(text);
 
     var template = 

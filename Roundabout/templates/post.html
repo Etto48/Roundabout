@@ -18,7 +18,7 @@
                 <small class="date">{{ created }}</small>
                 <div class="post-text">{{ text }}</div>
                 <script>
-                    var md = new remarkable.Remarkable();
+                    var md = new remarkable.Remarkable(remarkable_settings);
                     $("#post{{id}} .post-text").html(md.render($("#post{{id}} .post-text").html()));
                 </script>
                 <div class="post-bar">

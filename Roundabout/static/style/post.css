@@ -166,6 +166,13 @@ article.post#end .post-text {
     object-fit: cover;
 }
 
+.post-text table,
+.post-text th,
+.post-text td {
+    border: 1px solid var(--bg3);
+    border-collapse: collapse;
+}
+
 #no-posts {
     margin: 10px;
 }
