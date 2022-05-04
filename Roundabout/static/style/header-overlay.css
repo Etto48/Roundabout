@@ -122,12 +122,7 @@
 }
 
 #follow-list .follow div[role="button"] {
-    grid-column: 3;
-    height: fit-content;
-    width: fit-content;
-    padding: 5px 10px 5px 10px;
-    box-sizing: border-box;
-    border-radius: 20px;
+    grid-column: 3;    
     margin-top: 5px;
 }
 

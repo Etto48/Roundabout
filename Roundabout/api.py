@@ -131,8 +131,30 @@ def posts():
                 (args['f'],args['f'],name,args['f'],count,args['from'])
             )
             posts = cursor.fetchall()
+        elif 'extra' in args and 'from' in args and 'count' in args:
+            if args['extra']=='hot':
+                count = min(int(args['count']),MAX_COUNT)
+                cursor = conn.cursor(prepared=True)
+                cursor.execute(\
+                    """select p.*, ifnull(l.likes,0) as likes, ifnull(c.comments,0) as comments, ifnull(ld.o,false) as liked, ifnull(rl.likes,0) as recent_likes
+                    from post p 
+                    left outer join 
+                        (select post_id, count(*) as likes from liked group by post_id) as l on p.id=l.post_id 
+                    left outer join 
+                        (select post_id, count(*) as comments from `comment` group by post_id) as c on p.id=c.post_id 
+                    left outer join
+                        (select post_id,true as o from liked where user_name = %s) as ld on p.id = ld.post_id
+                    left outer join
+                        (select post_id, count(*) as likes 
+                            from liked where liked.created >= (current_timestamp() - interval 7 day)group by post_id) 
+                            as rl on p.id=rl.post_id
+                    order by recent_likes desc, p.created desc limit %s offset %s""",
+                    (name,args['count'],args['from']))
+                posts = cursor.fetchall()
+            else:
+                flask.abort(400,"\"extra\" mode not found")
         else:
-            flask.abort(400,"You must provide \"u\"|\"f\", \"from\" and \"count\"")
+            flask.abort(400,"You must provide \"u\"|\"f\"|\"extra\", \"from\" and \"count\"")
         res = flask.jsonify(posts)            
     return res
 

@@ -27,7 +27,7 @@
             <script>gen_bg("{{ uname }}","banner-top-container")</script>
             <div id="follow-button-container">
                 {% if name!=uname %}
-                <div id="follow-button" role="button" onclick="follow_unfollow('{{ uname }}','follow-button')">{% if followed %}Unfollow{% else %}Follow{% endif %}</div>
+                <div id="follow-button" class="follow-button {% if followed %}unfollow{% endif %}" role="button" onclick="follow_unfollow('{{ uname }}','follow-button')">{% if followed %}Unfollow{% else %}Follow{% endif %}</div>
                 {% endif %}
             </div>
             <script>draw_icon("{{ uname }}", "banner-canvas")</script>

@@ -10,11 +10,12 @@ function gen_follow(follow) {
     }
     var data = {
         user_name: follow[0],
+        unfollow: follow[1],
         follow_text: follow_text
     };
 
     var follow_button_template = 
-        "<div role=\"button\" id=\"follow-{{ user_name }}-button\" onclick=\"follow_unfollow('{{ user_name }}','follow-{{ user_name }}-button')\">{{ follow_text }}</div>"+
+        "<div role=\"button\" id=\"follow-{{ user_name }}-button\" class=\"follow-button {{# unfollow }}unfollow{{/ unfollow }}\" onclick=\"follow_unfollow('{{ user_name }}','follow-{{ user_name }}-button')\">{{ follow_text }}</div>"+
         "<script>init_follow_click('follow-{{ user_name }}','follow-{{ user_name }}-button','{{user_name}}')</script>";
     if(get_user_name()==data.user_name)
     {

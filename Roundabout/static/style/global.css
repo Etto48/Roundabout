@@ -113,3 +113,39 @@ canvas {
     width: 0;
     background-color: red;
 }
+
+div[role="button"].follow-button {
+    background-color: var(--fg1);
+    border: 2px solid var(--fg1);
+    color: var(--bg1);
+    width: 84px;
+    transition: background-color 100ms;
+    box-sizing: border-box;
+    height: fit-content;
+    padding: 5px 10px 5px 10px;
+    border-radius: 20px;
+}
+
+div[role="button"].follow-button.unfollow {
+    background-color: transparent;
+    color: var(--fg2);
+}
+
+div[role="button"].follow-button.loading {
+    animation: pulse_bg_animation 1s infinite ease-in-out;
+    background-size: 300% 100%;
+    color: transparent;
+}
+
+@keyframes pulse_bg_animation {
+    0% {
+        background-color: var(--bg3);
+        
+    }
+    50% {
+        background-color: var(--fg1);
+    }
+    100% {
+        background-color: var(--bg3);
+    }
+}

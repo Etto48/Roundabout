@@ -3,7 +3,7 @@
 #account-banner-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     position: fixed;
     top: 110px;
     left: 0px;
@@ -100,15 +100,13 @@
     box-sizing: border-box;
 }
 
-#follow-button {
-    padding: 5px 10px 5px 10px;
-    border-radius: 20px;
-}
-
 @media only screen and (max-width: 1500px) {
     #account-banner-container {
         position: static;
         width: 100%;
+    }
+    #account-banner-container {
+        align-items: center;
     }
 }
 

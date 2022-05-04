@@ -19,7 +19,7 @@ function follow_unfollow(user_name,button_id) {
             follow_working = false;
             return;
         }
-        
+        button.addClass("loading");
         $.post(
             "/api/follow",
             {
@@ -34,13 +34,15 @@ function follow_unfollow(user_name,button_id) {
                         var follow_delta = 0;
                         if(sr=='s') {
                             button.text("Unfollow");
+                            button.addClass("unfollow");
                             follow_delta = 1;
                         }
                         else {
                             button.text("Follow");
+                            button.removeClass("unfollow");
                             follow_delta = -1;
                         }
-
+                        button.removeClass("loading");
                         if(is_on_user(user_name))
                         {
                             followers_count.text(parseInt(followers_count.text())+follow_delta);
