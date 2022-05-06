@@ -193,9 +193,28 @@
     order: 1;
 }
 
-#new-post-bar #text-counter {
+.text-counter {
     order: 2;
     margin-right: 20px;
+    height: 20px;
+    width: 20px;
+    stroke-width: 2px;
+    fill: none;
+    transform: rotate(-90deg);
+}
+
+.text-counter-bg {
+    stroke: var(--bg2);
+    transition: stroke 100ms;
+}
+
+.text-counter-progress {
+    stroke: var(--accent);
+    stroke-linecap: round;
+    stroke-dashoffset: 56.5487; 
+    stroke-dasharray: 56.5487;
+    transition: stroke 200ms, stroke-dashoffset 100ms;
+    
 }
 
 #create-post {

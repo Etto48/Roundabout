@@ -95,6 +95,7 @@ article.post .post-bar div {
     min-width: 80px;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 article.post .post-bar div.like.liked i{

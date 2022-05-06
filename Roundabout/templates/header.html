@@ -57,7 +57,10 @@
             </div>
             <textarea id="new-post-text" maxlength="255" placeholder="What's happening?"></textarea>
             <div id="new-post-bar">
-                <small id="text-counter">0/255</small>
+                <svg class="text-counter">
+                    <circle class="text-counter-bg" cx="50%" cy="50%" r="9"></circle>
+                    <circle id="np-text-counter" class="text-counter-progress" cx="50%" cy="50%" r="9"></circle>
+                </svg>
                 <div role="button" id="create-post">
                     <p>Post</p>
                 </div>
@@ -66,7 +69,7 @@
             <script>
                 $("#new-post-text").on("input",function(event)
                 {
-                    count_text_and_update_counter("#text-counter","#new-post-text",255);
+                    count_text_and_update_counter("#np-text-counter","#new-post-text",255);
                 });
             </script>
         </div>

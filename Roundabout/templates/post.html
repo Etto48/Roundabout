@@ -40,7 +40,10 @@
                     <div class="create-comment">
                         <textarea id="create-comment-input" maxlength="255" placeholder="What do you think about this?"></textarea>
                         <div class="create-bar">
-                            <small id="comment-text-counter">0/255</small>
+                            <svg class="text-counter">
+                                <circle class="text-counter-bg" cx="50%" cy="50%" r="9"></circle>
+                                <circle id="comment-text-counter" class="text-counter-progress" cx="50%" cy="50%" r="9"></circle>
+                            </svg>
                             <div role="button" id="create" onclick="new_comment('{{ id }}')"><p>Comment</p></div>
                         </div>
                     </div>
